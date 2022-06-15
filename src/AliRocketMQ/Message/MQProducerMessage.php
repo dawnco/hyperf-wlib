@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 /**
- * @author Hi Developer
+ * @author Dawnc
  * @date   2021-08-18
  */
 
-namespace App\Lib\AliRocketMQ\Message;
+namespace WLib\AliRocketMQ\Message;
 
-use App\Lib\AliRocketMQ\MQConstants;
-use App\Lib\AliRocketMQ\MQException;
+use WLib\AliRocketMQ\MQConstants;
+use WLib\AliRocketMQ\MQException;
 use XMLWriter;
 
 class MQProducerMessage

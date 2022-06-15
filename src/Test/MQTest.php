@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @author Hi Developer
+ * @author Dawnc
  * @date   2021-08-19
  */
 
@@ -20,8 +20,8 @@ class MQTest
         $config = Config::get('aliyun.mq');
 
         $config['waitSeconds'] = 3;
-        $config['topic'] = 'calc-push-msg';
-        $config['group'] = 'GID_calc-push-msg';
+        $config['topic'] = 'test';
+        $config['group'] = 'GID_test';
 
         $mq = new MQClient($config);
         $mq->publish('1');

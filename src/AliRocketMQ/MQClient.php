@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @author Hi Developer
+ * @author Dawnc
  * @date   2021-08-19
  */
 
-namespace App\Lib\AliRocketMQ;
+namespace WLib\AliRocketMQ;
 
 
-use App\Helper\Log;
-use App\Lib\AliRocketMQ\Message\MQProducerMessage;
+use WLib\AliRocketMQ\Message\MQProducerMessage;
+use WLib\WLog;
 use Closure;
 use Throwable;
 
@@ -66,13 +66,12 @@ class MQClient
 
         while (true) {
             try {
-
                 $this->client->pull(function (array $msg) use ($closure) {
                     $this->callback($closure, $msg);
                 }, $this->config['topic'], $this->config['group'], $tag,
                     $option, $this->config['instanceId']);
             } catch (Throwable $e) {
-                Log::debug("订阅失败 $tag " . $e->getMessage());
+                WLog::debug("订阅失败 $tag " . $e->getMessage());
             }
             sleep($this->config['waitSeconds']);
         }
@@ -83,11 +82,11 @@ class MQClient
         $receiptHandle = [];
         foreach ($msg as $v) {
             try {
-                Log::debug("订阅成功  " . $v->messageId . " " . $v->messageTag);
+                WLog::debug("订阅成功  " . $v->messageId . " " . $v->messageTag);
                 $closure($v->messageBody, $v);
                 $receiptHandle[] = $v->receiptHandle;
             } catch (Throwable $e) {
-                Log::debug('处理消息异常 ' . $e->getMessage());
+                WLog::debug('处理消息异常 ' . $e->getMessage());
             }
         }
         if ($receiptHandle) {
@@ -95,7 +94,7 @@ class MQClient
                 $this->client->ack($receiptHandle, $this->config['topic'], $this->config['group'],
                     $this->config['instanceId']);
             } catch (Throwable $e) {
-                Log::error(sprintf("ACK 失败 %s", $e->getMessage()));
+                WLog::error(sprintf("ACK 失败 %s", $e->getMessage()));
             }
         }
 

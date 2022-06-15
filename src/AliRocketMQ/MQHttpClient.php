@@ -3,18 +3,18 @@
 declare(strict_types=1);
 
 /**
- * @author Hi Developer
+ * @author Dawnc
  * @date   2021-08-18
  */
 
-namespace App\Lib\AliRocketMQ;
+namespace WLib\AliRocketMQ;
 
-use App\Lib\AliRocketMQ\Message\MQConsumeMessage;
-use App\Lib\AliRocketMQ\Message\MQProducerMessage;
-use App\Lib\Str;
-use App\Lib\Tool\HttpClient;
 use Closure;
 use Swoole\Coroutine\Http\Client;
+use WLib\AliRocketMQ\Message\MQConsumeMessage;
+use WLib\AliRocketMQ\Message\MQProducerMessage;
+use WLib\Lib\HttpClient;
+use WLib\WUtil;
 
 class MQHttpClient
 {
@@ -43,7 +43,6 @@ class MQHttpClient
 
     public function send(MQProducerMessage $message, string $topic, string $instanceId = '')
     {
-
 
         $qs = sprintf("ns=%s", $instanceId ?: $this->instanceId);
         $path = sprintf("/topics/%s/messages", $topic);
@@ -75,12 +74,10 @@ class MQHttpClient
         $this->client->setData($body);
         $this->client->setMethod($method);
         $this->client->setHeaders($header);
-
         $this->client->execute($fullPath);
         $this->client->close();
 
         $statusCode = $this->client->getStatusCode();
-
         if ($statusCode != 201) {
             throw new MQException("推送消息失败", $this->client->body, $statusCode);
         }
@@ -264,7 +261,7 @@ class MQHttpClient
 
         $param['SignatureVersion'] = "1.0";
         $param['SignatureMethod'] = "HMAC-SHA1";
-        $param['SignatureNonce'] = Str::uuid();
+        $param['SignatureNonce'] = WUtil::uuid();
 
 
         $url = sprintf("http://ons.%s.aliyuncs.com/", $regionId);

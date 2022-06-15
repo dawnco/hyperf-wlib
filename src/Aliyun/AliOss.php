@@ -58,10 +58,10 @@ class AliOss extends Aliyun
      * 获取文件内容.
      * @param string $filename 路径比如 /20210101/file/best.jpg
      * @param string $bucket
-     * @return string 文件内容
+     * @return array ["body"=>"文件内容"]
      * @throws NetworkException
      */
-    public function get(string $filename, string $bucket = ''): string
+    public function get(string $filename, string $bucket = ''): array
     {
         if (!$bucket) {
             $bucket = $this->config['bucket'];
@@ -87,7 +87,9 @@ class AliOss extends Aliyun
 
         $r = $this->request($url, 'GET', $header);
 
-        return $r['body'];
+        return [
+            "body" => $r['body'],
+        ];
     }
 
     public function exist(string $filename, string $bucket = ''): bool

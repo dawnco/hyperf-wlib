@@ -59,7 +59,7 @@ class WLog
                 $tag,
                 $requestId,
                 $time,
-                json_encode($message));
+                app_json_encode($message));
             file_put_contents($file, $str, FILE_APPEND);
 
         } catch (\Throwable $e) {
@@ -70,7 +70,7 @@ class WLog
                 "",
                 $requestId,
                 $time,
-                json_encode($e->getMessage()));
+                app_json_encode($e->getMessage()));
             $file = sprintf("%s/%s-%s.log", $dir, $category, $date);
             file_put_contents($file, $str, FILE_APPEND);
         }

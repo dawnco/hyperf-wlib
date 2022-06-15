@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @author Hi Developer
+ * @author Dawnc
  * @date   2021-08-18
  */
 
-namespace App\Lib\AliRocketMQ;
+namespace WLib\AliRocketMQ;
 
 
 class MQConstants

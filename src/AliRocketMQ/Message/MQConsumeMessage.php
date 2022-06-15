@@ -3,15 +3,14 @@
 declare(strict_types=1);
 
 /**
- * @author Hi Developer
+ * @author Dawnc
  * @date   2021-08-19
  */
 
-namespace App\Lib\AliRocketMQ\Message;
+namespace WLib\AliRocketMQ\Message;
 
-
-use App\Exception\AppException;
-use App\Lib\AliRocketMQ\MQConstants;
+use WLib\AliRocketMQ\MQConstants;
+use WLib\AliRocketMQ\MQException;
 
 class MQConsumeMessage
 {
@@ -38,7 +37,7 @@ class MQConsumeMessage
     {
         $obj = simplexml_load_string($xml);
         if (!$obj) {
-            throw new AppException("解析错误");
+            throw new MQException("解析错误");
         }
 
         $arr = [];
@@ -57,7 +56,7 @@ class MQConsumeMessage
     {
         $obj = simplexml_load_string($xml);
         if (!$obj) {
-            throw new AppException("解析错误");
+            throw new MQException("解析错误");
         }
         $cls = new MQConsumeMessage();
         $cls->messageId = (string)$obj->MessageId;
