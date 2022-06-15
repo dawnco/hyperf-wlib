@@ -1,0 +1,33 @@
+{
+  "name": "dawnco/hyperf-wlib",
+  "description": "some hyperf helper tool",
+  "authors": [
+    {
+      "name": "dawnco",
+      "email": "abke@qq.com"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "src/Function.php"
+    ],
+    "psr-4": {
+      "WLib\\": "src/",
+      "Extend\\Ali\\Log\\": "Extend/Ali/Log/Extend/Ali/Log/",
+      "GPBMetadata\\": "Extend/Ali/Log/GPBMetadata/"
+    }
+  },
+  "require": {
+    "php": ">=8.0",
+    "hyperf/database": "3.0.*",
+    "ext-mysqli": "*",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "ext-redis": "*",
+    "ext-simplexml": "*",
+    "ext-sockets": "*",
+    "ext-xmlwriter": "*",
+    "ext-zip": "*"
+  }
+}
