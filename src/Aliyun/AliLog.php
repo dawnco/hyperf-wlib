@@ -71,12 +71,11 @@ class AliLog extends Aliyun
             throw new AppException('没指定 AliLog project');
         }
 
-
         $queryString['from'] = arr_get($opt, 'from', strtotime(date("Y-m-d")));
         $queryString['line'] = arr_get($opt, 'size', 50);
         $queryString['offset'] = arr_get($opt, 'offset', 0);
         $queryString['query'] = $query;
-        $queryString['reverse'] = 'true';
+        $queryString['reverse'] = arr_get($opt, 'reverse') ? "true" : "false";
         $queryString['to'] = arr_get($opt, 'to', strtotime(date("Y-m-d 23:59:59")));
 
         $topic = arr_get($opt, 'topic', '');
@@ -95,17 +94,13 @@ class AliLog extends Aliyun
         $resource = "/logstores/{$store}?" . implode("&", $tmp);
 
         $header['Date'] = gmdate('D, d M Y H:i:s T');
-        $header['Content-Length'] = 0;
         $header['x-log-bodyrawsize'] = 0;
-        $header['Content-Type'] = 'application/json';
         $header['Host'] = $project . '.' . $this->config['endpoint'];
         $header['x-log-apiversion'] = '0.6.0';
         $header['x-log-signaturemethod'] = 'hmac-sha1';
-
         $header['Authorization'] = $this->authorization($header, 'LOG', 'GET', $resource, ['x-log', 'x-acs']);
 
         $url = "https://{$project}.{$this->config['endpoint']}/logstores/{$store}?" . http_build_query($queryString);
-
         $ret = $this->request($url, 'GET', $header);
 
         return [

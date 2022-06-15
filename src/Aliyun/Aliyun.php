@@ -40,8 +40,8 @@ class Aliyun
         $CanonicalizeResource = $resource;
 
         $str = "{$method}\n";
-        $str .= $header['Content-MD5'] . "\n";
-        $str .= $header['Content-Type'] . "\n";
+        $str .= ($header['Content-MD5'] ?? '') . "\n";
+        $str .= ($header['Content-Type'] ?? '') . "\n";
         $str .= $header['Date'] . "\n";
         $str .= $canonicalizeHeaders;
         $str .= $CanonicalizeResource;
@@ -59,15 +59,16 @@ class Aliyun
         $host = $info['host'] ?? '';
         $port = $info['port'] ?? ($ssl ? 443 : 80);
         $path = $info['path'] ?? '/';
+        $query = $info['query'] ?? '';
 
         $client = new Client($host, $port, $ssl);
+
         $client->setHeaders($header);
         if ($data) {
             $client->setData($data);
         }
-
         $client->setMethod($method);
-        $client->execute($path);
+        $client->execute($path . ($query ? "?$query" : ''));
         $client->close();
 
         $code = $client->getStatusCode();

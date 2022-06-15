@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace WLib;
 
-class WDb
+use WLib\Db\Db;
+
+class WDb extends Db
 {
 
 }

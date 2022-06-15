@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @date   2022-04-16
  */
 
-namespace WLib\Db;
+namespace WLib\DbSample;
 
 
 use Hyperf\DB\DB;

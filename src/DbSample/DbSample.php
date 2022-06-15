@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WLib\Db;
+namespace WLib\DbSample;
 
 
 /**

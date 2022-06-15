@@ -16,7 +16,7 @@ class WCtx
 
     public static function start(): void
     {
-        Context::set("requestId", Util::uuid());
+        Context::set("requestId", WUtil::uuid());
     }
 
     public static function setRequestId(string $requestId): string

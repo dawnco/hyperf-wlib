@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace WLib;
 
-use Hyperf\Context\Context;
-
 /**
  * @method static debug(string $msg)
  * @method static error(string $msg)
@@ -18,7 +16,7 @@ class WLog
 
     public static function __callStatic($name, $arguments)
     {
-        if (Config::get('app_env') == 'production' && $name == 'debug') {
+        if (WConfig::get('app_env') == 'production' && $name == 'debug') {
             return;
         }
         $message = $arguments[0] ?? '';
@@ -46,7 +44,7 @@ class WLog
 
         $requestId = $requestId ?: WCtx::requestId();
         $time = $time ?: WUtil::milliseconds();
-        $dir = WConfig::get('log.dir');
+        $dir = WConfig::get('log.dir') ?: "/tmp";
 
         try {
             $dateTime = WDate::getInstance();
