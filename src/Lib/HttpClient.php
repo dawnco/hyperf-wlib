@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @date   2021-07-10
  */
 
-namespace App\Lib;
+namespace WLib\Lib;
 
 use Swoole\Coroutine\Http\Client;
 

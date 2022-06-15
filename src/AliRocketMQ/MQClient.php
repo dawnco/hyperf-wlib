@@ -10,10 +10,10 @@ declare(strict_types=1);
 namespace WLib\AliRocketMQ;
 
 
-use WLib\AliRocketMQ\Message\MQProducerMessage;
-use WLib\WLog;
 use Closure;
 use Throwable;
+use WLib\AliRocketMQ\Message\MQProducerMessage;
+use WLib\WLog;
 
 class MQClient
 {
@@ -41,14 +41,28 @@ class MQClient
         $this->client = new MQHttpClient($config);
     }
 
+
     /**
      * @param string $message
-     * @param int    $delay 延迟 毫秒
+     * @param int    执行的时间戳 毫秒
      * @return string 消息ID
      */
-    public function publish(MQProducerMessage $msg): string
+    public function samplePublish(string $data, int $delayAt = 0): string
     {
-        $obj = $this->client->send($msg, $this->config['topic'], $this->config['instanceId']);
+        $message = new MQProducerMessage($data);
+        if ($delayAt) {
+            $message->setStartDeliverTime($delayAt);
+        }
+        return $this->publish($message);
+    }
+
+    /**
+     * @param MQProducerMessage $message
+     * @return string 消息ID
+     */
+    public function publish(MQProducerMessage $message): string
+    {
+        $obj = $this->client->send($message, $this->config['topic'], $this->config['instanceId']);
         return $obj->messageId;
     }
 
