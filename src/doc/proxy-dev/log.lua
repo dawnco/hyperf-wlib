@@ -18,7 +18,7 @@ if ngx.arg[2] then
 
 	local jsonInstance = cjson.new()
 
-	local requestId = ngx.var.request_id
+	local requestId = ngx.var.appRequestId
 	logs["host"] = ngx.var.http_host
 	logs["uri"] = ngx.var.uri
 	logs["args"] = ngx.var.args
