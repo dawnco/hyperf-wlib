@@ -55,10 +55,11 @@ class WUtil
      */
     public static function create(callable $callable): int
     {
-        $requestId = Ctx::requestId();
+        $requestId = WCtx::requestId();
         return Coroutine::create(function () use ($callable, $requestId) {
-            Ctx::setRequestId($requestId);
+            WCtx::setRequestId($requestId);
             call($callable);
         });
     }
+
 }
