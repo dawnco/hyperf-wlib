@@ -26,7 +26,7 @@ class WCtx
     }
 
 
-    public static function requestId()
+    public static function requestId(): string
     {
         return Context::get("requestId") ?: '';
     }
