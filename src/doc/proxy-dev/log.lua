@@ -29,7 +29,7 @@ if ngx.arg[2] then
 	logs["country"] = ngx.var.country
 
 	logs["requestMethod"] = ngx.req.get_method()
-	logs["requestHeader"] = ngx.req.raw_header()
+	logs["requestHeader"] = ngx.req.get_headers()
 	logs["requestBody"] = ngx.req.get_body_data()
 
 	logs["responseHeader"] = ngx.resp.get_headers()
