@@ -1,6 +1,6 @@
 # some hyperf helper class
 
-需要以来 hyperf
+需要依赖 hyperf 
 
 ## 安装
 
