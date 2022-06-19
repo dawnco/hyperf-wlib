@@ -2,12 +2,6 @@
 
 declare(strict_types=1);
 
-use Hyperf\Redis\RedisFactory;
-use Hyperf\Utils\ApplicationContext;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-
-
 /**
  * @author Dawnc
  * @date   2022-06-15
@@ -15,6 +9,10 @@ use Psr\Container\NotFoundExceptionInterface;
 
 namespace WLib;
 
+use Hyperf\Redis\RedisFactory;
+use Hyperf\Utils\ApplicationContext;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Hyperf\Redis\Redis;
 
 class WRedis
