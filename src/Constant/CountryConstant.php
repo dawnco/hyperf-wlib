@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @date   2022-06-17
  */
 
-namespace App\Constant;
+namespace WLib\Constant;
 
 class CountryConstant
 {
