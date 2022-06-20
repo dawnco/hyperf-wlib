@@ -11,7 +11,7 @@ namespace WLib\Constant;
 
 class BoolVar
 {
-    
+
     const TRUE = 1;
 
     const FALSE = 0;
