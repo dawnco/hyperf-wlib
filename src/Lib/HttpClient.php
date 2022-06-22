@@ -242,7 +242,9 @@ class HttpClient
             $this->responseHeaders = $client->getHeaders();
             $this->responseCookies = $client->getCookies() ?: [];
         }
+        
         $client->close();
+
         return $result;
     }
 
