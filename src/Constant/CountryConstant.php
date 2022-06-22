@@ -26,4 +26,17 @@ class CountryConstant
      * 哥伦比亚
      */
     const CO = 3;
+
+    public static function toId(string $code2): string
+    {
+        $code = strtoupper($code2);
+        switch ($code) {
+            case 'id':
+                return self::ID;
+            case 'ng':
+                return self::NG;
+            case 'co':
+                return self::CO;
+        }
+    }
 }

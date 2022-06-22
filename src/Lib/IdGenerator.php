@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @date   2022-05-29
  */
 
-namespace App\Lib;
+namespace WLib\Lib;
 
 use App\Exception\AppException;
 use App\Helper\Redis;
