@@ -10,7 +10,8 @@ declare(strict_types=1);
 namespace WLib\Lib;
 
 use App\Exception\AppException;
-use App\Helper\Redis;
+use WLib\WRedis;
+
 
 /**
  */
@@ -36,7 +37,7 @@ class IdGenerator
 
     private static function incr(int $time): int
     {
-        $redis = Redis::connection();
+        $redis = WRedis::connection();
         $key = 'IdGenerator:incr:' . $time;
         $inc = $redis->incr($key);
         if ($inc > 4095) {
