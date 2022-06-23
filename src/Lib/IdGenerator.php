@@ -21,11 +21,11 @@ class IdGenerator
     private const START_TIMESTAMP = 1577808000000; // 2020-01-01 毫秒
 
     /**
-     * @param $dataCenterId 数据中心ID 范围 0 -31
-     * @param $workerId     服务器ID 范围 0 -31
+     * @param $dataCenterId int  数据中心ID 范围 0 -31
+     * @param $workerId     int    服务器ID 范围 0 -31
      * @return int
      */
-    public static function id($dataCenterId = 1, $workerId = 1): int
+    public static function id(int $dataCenterId = 1, int $workerId = 1): int
     {
         $interval = intval(microtime(true) * 1000) - self::START_TIMESTAMP;  // 42位
         $dataCenterId = 1; // 数据中心或者国家 最大值 31
@@ -35,6 +35,9 @@ class IdGenerator
         return ($interval << 22) | ($dataCenterId << 17) | ($workerId << 12) | $sequence;
     }
 
+    /**
+     * @throws AppException
+     */
     private static function incr(int $time): int
     {
         $redis = WRedis::connection();
