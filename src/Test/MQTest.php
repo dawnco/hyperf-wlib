@@ -24,7 +24,7 @@ class MQTest
         $mq = new MQClient($config);
         $message = new MQProducerMessage("xxx " . rand(10, 20));
         $id = $mq->publish($message);
-        echo "publish msg " . $message;
+        echo "publish msg " . $message->messageBody;
         echo PHP_EOL;
         echo "publish id " . $id;
         echo PHP_EOL;

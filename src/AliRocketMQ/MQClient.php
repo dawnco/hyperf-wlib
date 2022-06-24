@@ -31,7 +31,7 @@ class MQClient
     /**
      * @var MQHttpClient
      */
-    protected MQHttpClient $client;
+    protected null|MQHttpClient $client;
 
     public function __construct(array $config)
     {
