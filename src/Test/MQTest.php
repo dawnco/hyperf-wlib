@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace WLib\Test;
 
+use WLib\AliRocketMQ\Message\MQProducerMessage;
 use WLib\AliRocketMQ\MQClient;
 use WLib\WConfig;
 
@@ -21,17 +22,17 @@ class MQTest
         $config['topic'] = 'test';
         $config['group'] = 'GID_test';
         $mq = new MQClient($config);
-        $message = "xxx " . rand(10, 20);
-        $mq->publish($message);
+        $message = new MQProducerMessage("xxx " . rand(10, 20));
+        $id = $mq->publish($message);
         echo "publish msg " . $message;
+        echo PHP_EOL;
+        echo "publish id " . $id;
         echo PHP_EOL;
 
         $mq->subscribe(function ($msg) {
             echo "subscribe msg " . $msg;
             echo PHP_EOL;
         });
-
-
     }
 
     public function status()

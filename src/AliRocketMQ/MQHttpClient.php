@@ -75,7 +75,6 @@ class MQHttpClient
         $this->client->setMethod($method);
         $this->client->setHeaders($header);
         $this->client->execute($fullPath);
-        $this->client->close();
 
         $statusCode = $this->client->getStatusCode();
         if ($statusCode != 201) {
@@ -125,7 +124,6 @@ class MQHttpClient
         $this->client->setMethod($method);
         $this->client->setHeaders($header);
         $this->client->execute($fullPath);
-        $this->client->close();
 
         if ($this->client->getStatusCode() == 200) {
             $closure(MQConsumeMessage::load($this->client->body));
@@ -176,7 +174,6 @@ class MQHttpClient
         $this->client->setHeaders($header);
 
         $this->client->execute($fullPath);
-        $this->client->close();
 
         $status = $this->client->getStatusCode();
         if ($status == 204) {

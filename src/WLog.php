@@ -20,7 +20,7 @@ class WLog
             return;
         }
         $message = $arguments[0] ?? '';
-        self::record($name, WConfig::get('app_name', ''), $name, $message);
+        self::record(WConfig::get('app_name', ''), $name, $message);
     }
 
 

@@ -17,7 +17,7 @@ use WLib\WLog;
 
 class MQClient
 {
-    protected $config = [
+    protected array $config = [
         'accessId' => '',
         'secretKey' => '',
         'endpoint' => '',
@@ -31,7 +31,7 @@ class MQClient
     /**
      * @var MQHttpClient
      */
-    protected $client;
+    protected MQHttpClient $client;
 
     public function __construct(array $config)
     {
@@ -112,5 +112,16 @@ class MQClient
             }
         }
 
+    }
+
+    public function close(): void
+    {
+        $this->client->close();
+    }
+
+    public function __destruct()
+    {
+        $this->client->close();
+        $this->client = null;
     }
 }
