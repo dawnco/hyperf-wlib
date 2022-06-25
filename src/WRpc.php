@@ -22,7 +22,7 @@ class WRpc
         try {
             return $call();
         } catch (\Hyperf\RpcClient\Exception\RequestException $e) {
-            $error = "$rpcName Rpc 请求异常 " . $e->getThrowableMessage();
+            $error = "$rpcName Rpc 请求异常 " . $e->getThrowableMessage() . " code: " . $e->getThrowableCode();
             WLog::error($error);
             throw new AppException($error, $e->getThrowableCode() ?: -110, $e);
         }

@@ -65,12 +65,13 @@ class LoggerFormatter extends LineFormatter
             if ($context) {
                 $data['context'] = $context;
             }
+
         }
 
-
-        $msg = app_json_encode($data);
         if ($this->allowInlineLineBreaks) {
             $msg = print_r($data, true);
+        } else {
+            $msg = is_string($data) ? $data : app_json_encode($data);
         }
 
         return sprintf("[%s] [%s] [%s] [%s] [%s] [%s] %s\n",
