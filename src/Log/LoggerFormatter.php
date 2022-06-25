@@ -11,6 +11,7 @@ namespace WLib\Log;
 
 use Monolog\Formatter\LineFormatter;
 use Monolog\LogRecord;
+use WLib\WConfig;
 use WLib\WCtx;
 use WLib\WDate;
 use WLib\WUtil;
@@ -25,21 +26,44 @@ class LoggerFormatter extends LineFormatter
 
         $date = WDate::getInstance('cn')->format();
         $time = WUtil::milliseconds();
-        $category = $record->channel ?: 'hyperf';
-        $tag = $record->level->name ?: 'debug';
+        $serviceName = WConfig::get('app_name');
         $message = $record->message;
+        $context = $record->context;
 
-        $data['message'] = $message;
-        $data['context'] = $record->context;
-        $data['extra'] = $record->extra;
-        $requestId = WCtx::requestId();
+        $requestId = (isset($context['requestId'])
+                      && $context['requestId']) ? $context['requestId'] : WCtx::requestId();
 
-        return sprintf("[%s] [HH%s] [%s] [%s] [%s] %s\n",
+        $category = (isset($context['category'])
+                     && $context['category']) ? $context['category'] : 'system';
+
+        $tag = (isset($context['tag'])
+                && $context['tag']) ? $context['tag'] :  $record->level->name;
+
+
+        unset($context['requestId'], $context['category'], $context['tag'], $context['tag']);
+
+
+        if (isset($context['WLOG'])) {
+            $data = $message;
+        } else {
+            $data['message'] = $message;
+            $data['extra'] = $record->extra;
+            $data['context'] = $context;
+        }
+
+
+        $msg = app_json_encode($data);
+        if ($this->allowInlineLineBreaks) {
+            $msg = print_r($data, true);
+        }
+
+        return sprintf("[%s] [%s] [%s] [%s] [%s] [%s] %s\n",
             $date,
+            $serviceName,
             $category,
             $tag,
             $requestId,
             $time,
-            app_json_encode($data));
+            $msg);
     }
 }
