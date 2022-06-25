@@ -54,13 +54,17 @@ class LoggerFormatter extends LineFormatter
                 && $context['tag']) ? $context['tag'] : '';
 
         if ($wlog) {
-            $data = $context['message'];
+            $data = $context['message'] ?? '';
         } else {
             $category = 'system';
             $tag = $record->level->name;
             $data['message'] = $message;
-            $data['extra'] = $record->extra;
-            $data['context'] = $context;
+            if ($record->extra) {
+                $data['extra'] = $record->extra;
+            }
+            if ($context) {
+                $data['context'] = $context;
+            }
         }
 
 

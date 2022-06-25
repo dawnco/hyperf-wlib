@@ -7,9 +7,9 @@ namespace WLib;
 use WLib\Log\StdoutLogger;
 
 /**
- * @method static debug(string $msg)
- * @method static error(string $msg)
- * @method static info(string $msg)
+ * @method static debug(string $message, array $context = [])
+ * @method static error(string $message, array $context = [])
+ * @method static info(string $message, array $context = [])
  * Class WLog
  * @package WLib
  */
@@ -19,7 +19,8 @@ class WLog
     public static function __callStatic($name, $arguments)
     {
         $message = $arguments[0] ?? '';
-        StdoutLogger::get()->$name($message);
+        $context = $arguments[1] ?? [];
+        StdoutLogger::get()->$name($message, $context);
     }
 
     /**
