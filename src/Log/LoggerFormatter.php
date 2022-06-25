@@ -3,6 +3,17 @@
 declare(strict_types=1);
 
 /**
+ * 阿里云
+ * 示例
+ * ```
+ * [2022-06-25 11:12:17] [service-template] [cat] [Info] [1e3ca8af-34cf-f09a-8e41-bde5353edca5] [1656126737923]
+ * ["rmsg"]
+ * ```
+ * 正则
+ * ```
+ * \[(\d+-\d+-\d+\s\d+:\d+:\d+)\] \[([a-zA-Z0-9\-_]*)\] \[([a-zA-Z0-9\-_]*)\] \[([a-zA-Z0-9\-_]*)\]
+ * \[([a-zA-Z0-9\-_]*)\] \[([0-9]+)\] (.*)
+ * ```
  * @author Dawnc
  * @date   2022-06-20
  */
@@ -30,22 +41,23 @@ class LoggerFormatter extends LineFormatter
         $message = $record->message;
         $context = $record->context;
 
+        // 来自自定义的
+        $wlog = $context['WLOG'] ?? false;
+
         $requestId = (isset($context['requestId'])
                       && $context['requestId']) ? $context['requestId'] : WCtx::requestId();
 
         $category = (isset($context['category'])
-                     && $context['category']) ? $context['category'] : 'system';
+                     && $context['category']) ? $context['category'] : "";
 
         $tag = (isset($context['tag'])
-                && $context['tag']) ? $context['tag'] :  $record->level->name;
+                && $context['tag']) ? $context['tag'] : '';
 
-
-        unset($context['requestId'], $context['category'], $context['tag'], $context['tag']);
-
-
-        if (isset($context['WLOG'])) {
-            $data = $message;
+        if ($wlog) {
+            $data = $context['message'];
         } else {
+            $category = 'system';
+            $tag = $record->level->name;
             $data['message'] = $message;
             $data['extra'] = $record->extra;
             $data['context'] = $context;

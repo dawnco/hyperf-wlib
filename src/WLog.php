@@ -46,9 +46,10 @@ class WLog
             'requestId' => $requestId ?: WCtx::requestId(),
             'time' => $time ?: WUtil::milliseconds(),
             'WLOG' => true,
+            'message' => $message,
         ];
 
-        StdoutLogger::get()->info(app_json_encode($message), $context);
+        StdoutLogger::get()->info('', $context);
 
     }
 }
