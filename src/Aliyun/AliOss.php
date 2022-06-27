@@ -148,7 +148,7 @@ class AliOss extends Aliyun
             'Content-Type' => '',
         ];
 
-        $canonicalizeResource = '/' . $bucket . '/' . $filename;
+        $canonicalizeResource = '/' . $bucket . $filename;
 
         $signature = $this->urlAuthorization(
             $header,
@@ -160,7 +160,7 @@ class AliOss extends Aliyun
             ['x-oss']
         );
 
-        $url = "https://" . $bucket . '.' . $this->config['endpoint'] . '/' . $filename;
+        $url = "https://" . $bucket . '.' . $this->config['endpoint'] . $filename;
 
         $responseUri = $url . '?' .
                        'OSSAccessKeyId=' . $this->config['accessId'] .
