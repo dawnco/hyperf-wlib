@@ -9,64 +9,21 @@ declare(strict_types=1);
 
 namespace WLib\Log;
 
-use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Utils\ApplicationContext;
+use Psr\Container\ContainerInterface;
 use WLib\WConfig;
-use WLib\WCtx;
-use WLib\WUtil;
 
-class StdoutLogger implements StdoutLoggerInterface
+
+class StdoutLogger
 {
-
-    public static function get(string $name = '')
+    public function __invoke(ContainerInterface $container)
     {
-        return ApplicationContext::getContainer()->get(LoggerFactory::class)->get($name ?: WConfig::get('app_name'));
+        return $container->get(LoggerFactory::class)->get(WConfig::get('app_name'));
     }
 
-    public function emergency(\Stringable|string $message, array $context = [])
+    public static function get()
     {
-        self::get()->emergency($message, $context);
+        return ApplicationContext::getContainer()->get(LoggerFactory::class)->get(WConfig::get('app_name'));
     }
-
-    public function alert(\Stringable|string $message, array $context = [])
-    {
-        self::get()->alert($message, $context);
-    }
-
-    public function critical(\Stringable|string $message, array $context = [])
-    {
-        self::get()->critical($message, $context);
-    }
-
-    public function error(\Stringable|string $message, array $context = [])
-    {
-        self::get()->error($message, $context);
-    }
-
-    public function warning(\Stringable|string $message, array $context = [])
-    {
-        self::get()->warning($message, $context);
-    }
-
-    public function notice(\Stringable|string $message, array $context = [])
-    {
-        self::get()->notice($message, $context);
-    }
-
-    public function info(\Stringable|string $message, array $context = [])
-    {
-        self::get()->info($message, $context);
-    }
-
-    public function debug(\Stringable|string $message, array $context = [])
-    {
-        self::get()->debug($message, $context);
-    }
-
-    public function log($level, \Stringable|string $message, array $context = [])
-    {
-        self::get()->log($level, $message, $context);
-    }
-    
 }
