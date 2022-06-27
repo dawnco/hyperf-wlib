@@ -3,11 +3,7 @@
 https://hyperf.wiki/2.2/#/zh-cn/tutorial/aliyun-logger
 https://help.aliyun.com/document_detail/31720.html
 原文
-```
-[2022-06-13 13:29:21] [info] [] [23b3ea23-9afd-9af5-ef58-a1f566c49a23] [1655098161180] "br\n            ln\n            "
-[2022-06-13 13:29:21] [http] [request] [23b3ea23-9afd-9af5-ef58-a1f566c49a23] [1655098161183] ["a","b\n            a\n            "]
-
-```
+ 
 
 日志路径
 
@@ -17,14 +13,17 @@ https://help.aliyun.com/document_detail/31720.html
 
 行首正则
 ```
-\[(\d+-\d+-\d+\s\d+:\d+:\d+)\] \[([a-zA-Z0-9\-_]*)\] \[([a-zA-Z0-9\-_]*)\] \[([a-zA-Z0-9\-_]*)\] \[([a-zA-Z0-9\-_]*)\] \[([0-9]+)\] (.*)
+\[(\d+-\d+-\d+\s\d+:\d+:\d+)\] \[([a-zA-Z0-9\-_\.]*)\] \[([a-zA-Z0-9\-_\.]*)\] \[([a-zA-Z0-9\-_\.]*)\] \[([a-zA-Z0-9\-_\.]*)\] \[([0-9]+)\] (.*)```
 ```
-
 示例
 ```
-[2022-06-25 11:12:17] [service-template] [cat] [Info] [1e3ca8af-34cf-f09a-8e41-bde5353edca5] [1656126737923] ["rmsg"]
+[datetime] [service] [category] [tag] [requestId] data 
+
+[2022-06-27 12:05:25] [service-loan-market] [http] [] [77649513ee3cbb0e8166cc8b65304e97] [1656302725924] aaa
+
+[2022-06-27 12:05:25] [nginx] [] [api-id-8001.atdev.top] [] [1656302725000] xxx
+
 ```
 正则
 ```
-\[(\d+-\d+-\d+\s\d+:\d+:\d+)\] \[([a-zA-Z0-9\-_]*)\] \[([a-zA-Z0-9\-_]*)\] \[([a-zA-Z0-9\-_]*)\] \[([a-zA-Z0-9\-_]*)\] \[([0-9]+)\] (.*)
-```
+\[(\d+-\d+-\d+\s\d+:\d+:\d+)\] \[([a-zA-Z0-9\-_\.]*)\] \[([a-zA-Z0-9\-_\.]*)\] \[([a-zA-Z0-9\-_\.]*)\] \[([a-zA-Z0-9\-_\.]*)\] \[([0-9]+)\] (.*)```
