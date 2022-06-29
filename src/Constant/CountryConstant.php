@@ -33,7 +33,7 @@ class CountryConstant
      * 转换为数字国家
      * @throws AppException
      */
-    public static function toId(string $code2): int
+    public static function toInt(string $code2): int
     {
         $code = strtoupper($code2);
         return match ($code) {
