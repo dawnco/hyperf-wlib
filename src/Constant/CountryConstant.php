@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace WLib\Constant;
 
+use App\Exception\AppException;
+
 class CountryConstant
 {
     /**
@@ -27,16 +29,18 @@ class CountryConstant
      */
     const CO = 3;
 
-    public static function toId(string $code2): string
+    /**
+     * 转换为数字国家
+     * @throws AppException
+     */
+    public static function toId(string $code2): int
     {
         $code = strtoupper($code2);
-        switch ($code) {
-            case 'id':
-                return self::ID;
-            case 'ng':
-                return self::NG;
-            case 'co':
-                return self::CO;
-        }
+        return match ($code) {
+            'ID' => self::ID,
+            'NG' => self::NG,
+            'CO' => self::CO,
+            default => throw new AppException("not defined country $code2"),
+        };
     }
 }

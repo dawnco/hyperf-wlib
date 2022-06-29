@@ -1,8 +1,9 @@
-
 -- 记录nginx请求日志方便调试
 local cjson = require "cjson"
 local string = require "string"
 --local str = require "resty.string"
+local b64 = require("ngx.base64")
+
 
 local resp_body = ngx.arg[1]
 ngx.ctx.buffered = (ngx.ctx.buffered or "") .. resp_body
@@ -36,7 +37,7 @@ if ngx.arg[2] then
 
         logs["responseHeader"] = ngx.resp.get_headers()
         logs["responseStatus"] = ngx.status
-        logs["responseBody"] = ngx.ctx.buffered
+        logs["responseBody"] = b64.encode_base64url(ngx.ctx.buffered)
 
 
         local handle = io.open(file, "aw")
