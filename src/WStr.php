@@ -20,4 +20,14 @@ class WStr
     {
         return base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
     }
+
+    public static function mask($str, $showLen = 4): string
+    {
+        $len = strlen($str);
+        if ($len <= $showLen) {
+            return $str;
+        }
+        return str_pad("", $len - $showLen, "*", STR_PAD_LEFT) . substr($str, $len - $showLen);
+    }
+
 }

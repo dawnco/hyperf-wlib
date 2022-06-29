@@ -50,7 +50,7 @@ class IdGenerator
         return $inc;
     }
 
-    public static function meta($id): array
+    public static function meta(int $id): array
     {
         $bin = base_convert((string)$id, 10, 2);
         $bin = str_pad($bin, 64, '0', STR_PAD_LEFT);
