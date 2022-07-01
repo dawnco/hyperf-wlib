@@ -38,9 +38,7 @@ class WRpc
             // 网络连接失败
             throw new NetworkException($e->getMessage(), ErrorCode::NETWORK_ERROR, $e);
         } catch (\Throwable $e) {
-            var_dump(get_class($e), $e);
             throw new AppException($e->getMessage(), ErrorCode::SYSTEM_ERROR, $e);
         }
     }
-}
 }
