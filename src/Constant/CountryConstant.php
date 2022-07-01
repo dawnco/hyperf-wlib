@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace WLib\Constant;
 
-use App\Exception\AppException;
+use WLib\Exception\AppException;
 
 class CountryConstant
 {

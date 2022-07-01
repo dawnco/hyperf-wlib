@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace WLib;
 
-use App\Exception\AppException;
+use WLib\Exception\AppException;
 use Hyperf\Utils\Coroutine;
 
 class WUtil

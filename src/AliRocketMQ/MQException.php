@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace WLib\AliRocketMQ;
 
 
-use App\Exception\AppException;
+use WLib\Exception\AppException;
 use Throwable;
 
 class MQException extends AppException

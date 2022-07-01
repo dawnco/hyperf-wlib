@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace WLib\Aliyun;
 
-use App\Exception\AppException;
-use App\Exception\NetworkException;
+use WLib\Exception\AppException;
+use WLib\Exception\NetworkException;
 use Extend\Ali\Log\Content;
 use Extend\Ali\Log\Log;
 use Extend\Ali\Log\LogGroup;

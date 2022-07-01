@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WLib\Aliyun;
 
-use App\Exception\NetworkException;
+use WLib\Exception\NetworkException;
 use Swoole\Coroutine\Http\Client;
 
 class Aliyun
