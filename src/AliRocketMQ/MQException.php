@@ -23,6 +23,9 @@ class MQException extends AppException
             $message .= " => " . $obj->Message;
         }
 
+
+
+
         parent::__construct($message, $code, $previous);
     }
 }

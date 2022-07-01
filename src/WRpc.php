@@ -17,7 +17,7 @@ class WRpc
 {
     /**
      * @throws AppException
-     * @throws \Throwable
+     * @throws NetworkException
      */
     public static function call(callable $call)
     {
