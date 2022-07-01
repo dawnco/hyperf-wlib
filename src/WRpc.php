@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace WLib;
 
 use App\Exception\AppException;
+use WLib\Constant\ErrorCode;
+use WLib\Exception\NetworkException;
 
 class WRpc
 {
@@ -17,14 +19,28 @@ class WRpc
      * @throws AppException
      * @throws \Throwable
      */
-    public static function call(callable $call, string $rpcName)
+    public static function call(callable $call)
     {
         try {
             return $call();
         } catch (\Hyperf\RpcClient\Exception\RequestException $e) {
-            $error = "$rpcName Rpc 请求异常 " . $e->getThrowableMessage() . " code: " . $e->getThrowableCode();
-            WLog::error($error);
-            throw new AppException($error, $e->getThrowableCode() ?: 1, $e);
+            if ($e->getThrowableCode() == ErrorCode::NETWORK_ERROR) {
+                // 网络请求失败了
+                throw new NetworkException($e->getThrowableMessage() ?: $e->getMessage(), ErrorCode::NETWORK_ERROR, $e);
+            } else {
+                throw new \WLib\Exception\AppException($e->getThrowableMessage() ?: $e->getMessage(),
+                    $e->getThrowableCode() ?: ErrorCode::SYSTEM_ERROR, $e);
+            }
+        } catch (\Hyperf\LoadBalancer\Exception\RuntimeException $e) {
+            // 没有服务可用
+            throw new NetworkException($e->getMessage(), ErrorCode::NETWORK_ERROR, $e);
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+            // 网络连接失败
+            throw new NetworkException($e->getMessage(), ErrorCode::NETWORK_ERROR, $e);
+        } catch (\Throwable $e) {
+            var_dump(get_class($e), $e);
+            throw new AppException($e->getMessage(), ErrorCode::SYSTEM_ERROR, $e);
         }
     }
+}
 }
