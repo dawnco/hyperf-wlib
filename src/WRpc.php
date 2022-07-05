@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace WLib;
 
-use WLib\Exception\AppException;
 use WLib\Constant\ErrorCode;
+use WLib\Exception\AppException;
 use WLib\Exception\NetworkException;
 
 class WRpc
@@ -37,6 +37,9 @@ class WRpc
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
             // 网络连接失败
             throw new NetworkException($e->getMessage(), ErrorCode::NETWORK_ERROR, $e);
+        } catch (AppException $e) {
+            // 抛出相同异常
+            throw $e;
         } catch (\Throwable $e) {
             throw new AppException($e->getMessage(), ErrorCode::SYSTEM_ERROR, $e);
         }
