@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @date   2022-05-28
  */
 
-namespace WLib\Lib;
+namespace App\Service\Api\Core;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -39,12 +39,14 @@ class SnGenerator
             throw new AppException("sn country length error");
         }
 
-        $wDate = WDate::getInstance($country);
+        $wDate = new WDate($country);
         $ymd = $wDate->setTimestamp($timestamp)->format('Ymd');
-        $dateStr = $wDate->format('Y,n,j');
+        $dateStr = $wDate->setTimestamp($timestamp)->format('Y,n,j');
+        $todayBegin = $wDate->setTimestamp($timestamp)->dayBegin()->getTimestamp();
 
         list($y, $m, $d) = array_map('intval', explode(',', $dateStr));
-        $snQuarter = (int)floor(($timestamp - $wDate->dayBegin()->getTimestamp()) / 60 / 15);
+        $snQuarter = (int)floor(($timestamp - $todayBegin) / 60 / 15);
+
         $snQuarter = str_pad((string)$snQuarter, 2, "0", STR_PAD_LEFT);
         $key = sprintf("sys:generator:sn:%s:%s", $ymd, $snQuarter);
         $incr = self::incr($key);
@@ -135,7 +137,7 @@ EOT;
             "year" => $year,
             "month" => $month,
             "day" => (int)$rDay,
-            "quarter" => (int)$quarter,
+            "quarter" => (int)ltrim($quarter, "0"),
             "ym" => str_pad(strval($year - 2000), 2, "0", STR_PAD_LEFT) . str_pad(strval($month), 2, "0", STR_PAD_LEFT),
             "incr" => (int)$incr,
         ];
