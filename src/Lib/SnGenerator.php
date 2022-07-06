@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @date   2022-05-28
  */
 
-namespace App\Service\Api\Core;
+namespace WLib\Lib;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
