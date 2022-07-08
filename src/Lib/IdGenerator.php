@@ -24,6 +24,7 @@ class IdGenerator
      * @param $dataCenterId int  数据中心ID 范围 0 -31
      * @param $workerId     int    服务器ID 范围 0 -31
      * @return int
+     * @throws AppException
      */
     public static function id(int $dataCenterId = 1, int $workerId = 1): int
     {
@@ -40,8 +41,8 @@ class IdGenerator
      */
     private static function incr(int $time): int
     {
-        $redis = WRedis::connection();
-        $key = 'IdGenerator:incr:' . $time;
+        $redis = WRedis::connection("idGenerator");
+        $key = 'sys:generator:id:%s' . $time;
         $inc = $redis->incr($key);
         if ($inc > 4095) {
             throw new AppException("IdGenerator incr is big then 4095");

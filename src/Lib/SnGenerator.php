@@ -86,7 +86,7 @@ class SnGenerator
     private static function incr(string $key): string
     {
 
-        $redis = WRedis::connection();
+        $redis = WRedis::connection('idGenerator');
 
         $script = <<<EOT
             -- local key = 'inc-id:' .. KEYS[1]

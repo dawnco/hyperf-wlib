@@ -29,7 +29,7 @@ class EnDecrypt
      * @param string $str
      * @param string $iv
      * @param string $accessKey
-     * @return string 
+     * @return string
      */
     public static function en(string $str, string $iv, string $accessKey): string
     {

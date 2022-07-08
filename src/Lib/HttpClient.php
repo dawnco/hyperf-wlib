@@ -191,7 +191,7 @@ class HttpClient
         return $this->responseBody;
     }
 
-    public function getRequestHeader()
+    public function getRequestHeader(): array
     {
         return $this->headers;
     }

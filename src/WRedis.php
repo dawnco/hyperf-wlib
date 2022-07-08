@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace WLib;
 
+use Hyperf\Redis\Redis;
 use Hyperf\Redis\RedisFactory;
 use Hyperf\Utils\ApplicationContext;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Hyperf\Redis\Redis;
 
 class WRedis
 {
