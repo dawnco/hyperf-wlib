@@ -42,7 +42,7 @@ class IdGenerator
     private static function incr(int $time): int
     {
         $redis = WRedis::connection("idGenerator");
-        $key = 'sys:generator:id:%s' . $time;
+        $key = 'sys:generator:id:' . $time;
         $inc = $redis->incr($key);
         $redis->expire($key, 60);
         if ($inc > 4095) {
