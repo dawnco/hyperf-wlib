@@ -44,10 +44,10 @@ class IdGenerator
         $redis = WRedis::connection("idGenerator");
         $key = 'sys:generator:id:%s' . $time;
         $inc = $redis->incr($key);
+        $redis->expire($key, 60);
         if ($inc > 4095) {
             throw new AppException("IdGenerator incr is big then 4095");
         }
-        $redis->expire($key, 60);
         return $inc;
     }
 
