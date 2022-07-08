@@ -48,7 +48,7 @@ class SnGenerator
         $snQuarter = (int)floor(($timestamp - $todayBegin) / 60 / 15);
 
         $snQuarter = str_pad((string)$snQuarter, 2, "0", STR_PAD_LEFT);
-        $key = sprintf("sys:generator:sn:%s:%s", $ymd, $snQuarter);
+        $key = sprintf("sys:generator:sn:%s:%s:%s", $country, $ymd, $snQuarter);
         $incr = self::incr($key);
 
         if ($incr > 9999) {

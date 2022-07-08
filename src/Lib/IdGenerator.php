@@ -21,7 +21,7 @@ class IdGenerator
     private const START_TIMESTAMP = 1577808000000; // 2020-01-01 毫秒
 
     /**
-     * @param $dataCenterId int  数据中心ID 范围 0 -31
+     * @param $dataCenterId int  数据中心ID 范围 0 -31  对应的国家int  使用 CountryConstant::toInt 得到
      * @param $workerId     int    服务器ID 范围 0 -31
      * @return int
      * @throws AppException
@@ -32,17 +32,17 @@ class IdGenerator
         $dataCenterId = 1; // 数据中心或者国家 最大值 31
         $workerId = 1; // 服务器id 最大值  31
         //$sequence = rand(0, 4095);   // 顺序ID  最大值 4095
-        $sequence = self::incr($interval);
+        $sequence = self::incr($dataCenterId, $workerId, $interval);
         return ($interval << 22) | ($dataCenterId << 17) | ($workerId << 12) | $sequence;
     }
 
     /**
      * @throws AppException
      */
-    private static function incr(int $time): int
+    private static function incr(int $dataCenterId, int $workerId, int $time): int
     {
         $redis = WRedis::connection("idGenerator");
-        $key = 'sys:generator:id:' . $time;
+        $key = sprintf('sys:generator:id:%s:%s:%s', $dataCenterId, $workerId, $time);
         $inc = $redis->incr($key);
         $redis->expire($key, 60);
         if ($inc > 4095) {
