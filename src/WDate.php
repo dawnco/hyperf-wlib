@@ -12,6 +12,14 @@ namespace WLib;
 class WDate
 {
 
+    private static array $map = [
+        'uk' => 'Europe/London',
+        'cn' => 'Asia/Shanghai',
+        'id' => 'Asia/Jakarta',
+        'ng' => 'Africa/Lagos',
+        'in' => 'Asia/Kolkata', // 印度
+    ];
+
     private \DateTime $dateTime;
 
     public function __construct(string $countryISO2 = '')
@@ -29,14 +37,7 @@ class WDate
 
     public function setCountry(string $countryISO2): static
     {
-        $map = [
-            'uk' => 'Europe/London',
-            'cn' => 'Asia/Shanghai',
-            'id' => 'Asia/Jakarta',
-            'ng' => 'Africa/Lagos',
-            'in' => 'Asia/Kolkata', // 印度
-        ];
-        $this->dateTime->setTimezone(new \DateTimeZone($map[$countryISO2]));
+        $this->dateTime->setTimezone(new \DateTimeZone(self::$map[$countryISO2]));
         return $this;
     }
 
@@ -116,5 +117,9 @@ class WDate
         return $this;
     }
 
+    public static function setDefaultTimezone(string $countryISO2): void
+    {
+        date_default_timezone_set(self::$map[$countryISO2]);
+    }
 
 }
