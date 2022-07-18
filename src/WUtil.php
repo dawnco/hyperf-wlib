@@ -15,6 +15,9 @@ use Hyperf\Utils\Coroutine;
 class WUtil
 {
 
+    /**
+     * @return string
+     */
     public static function uuid(): string
     {
         $str = md5(uniqid(time() . "-" . mt_rand(), true));
@@ -44,14 +47,20 @@ class WUtil
         return intval(microtime(true) * 1000);
     }
 
-    public static function date($format = 'Y-m-d H:i:s', int $timestamp = 0): string
+    /**
+     * @param string $format
+     * @param int    $timestamp
+     * @return string
+     */
+    public static function date(string $format = 'Y-m-d H:i:s', int $timestamp = 0): string
     {
         return date($format, $timestamp ?: time());
     }
 
     /**
-     * 创建携程.
-     * @throws AppException
+     * 创建携程
+     * @param callable $callable
+     * @return int
      */
     public static function create(callable $callable): int
     {
