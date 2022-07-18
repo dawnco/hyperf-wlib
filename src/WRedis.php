@@ -20,8 +20,6 @@ class WRedis
     /**
      * @param string $poolName
      * @return Redis
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public static function connection(string $poolName = 'default'): Redis
     {
