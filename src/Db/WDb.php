@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace WLib\Db;
 
 /**
- * Class Db
+ * Class WDb
  * @package WLib\Db
  * @method static insert(string $table, array $data)
  * @method static insertGetId(string $table, array $data)
@@ -25,7 +25,7 @@ namespace WLib\Db;
  * @method static getLine(string $query, array $bindings = [])
  * @method static getVar(string $query, array $bindings = [])
  */
-class Db
+class WDb
 {
 
     protected static array $instance = [];
@@ -36,10 +36,10 @@ class Db
         return $db->{$name}(...$arguments);
     }
 
-    public static function connection(string $poolName = 'default'): DbConnect
+    public static function connection(string $poolName = 'default'): WDbConnect
     {
         if (!isset(self::$instance[$poolName])) {
-            self::$instance[$poolName] = new DbConnect($poolName);
+            self::$instance[$poolName] = new WDbConnect($poolName);
         }
         return self::$instance[$poolName];
     }

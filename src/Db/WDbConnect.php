@@ -14,7 +14,7 @@ use Hyperf\Database\ConnectionInterface;
 use Hyperf\DbConnection\Db;
 
 
-class DbConnect
+class WDbConnect
 {
 
     protected string $poolName;
@@ -63,7 +63,7 @@ class DbConnect
         $updateData = implode(', ', $updateData);
 
         foreach ($where as $field => $value) {
-            array_push($whereData, sprintf('`%s` = %s', $field, '?'));
+            $whereData[] = sprintf('`%s` = %s', $field, '?');
             $bind[] = $value;
         }
         $whereSql = 'WHERE ' . implode(' AND ', $whereData);

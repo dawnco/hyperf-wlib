@@ -11,7 +11,7 @@ namespace WLib;
 
 use WLib\Db\Db;
 
-class WDb extends Db
+class WDb extends \WLib\Db\WDb
 {
 
 }

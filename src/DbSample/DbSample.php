@@ -31,7 +31,7 @@ class DbSample
         return $db->{$name}(...$arguments);
     }
 
-    public static function connection(string $poolName = 'default'): WDbSample
+    public static function connection(string $poolName = 'default'): DbSampleConnection
     {
         if (!isset(self::$instance[$poolName])) {
             self::$instance[$poolName] = make(DbSampleConnection::class, [
