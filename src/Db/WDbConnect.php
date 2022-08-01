@@ -50,6 +50,24 @@ class WDbConnect
         }
     }
 
+    public function upsert(string $table, array $data, array $where): void
+    {
+        $whereData = [];
+        $bind = [];
+        foreach ($where as $field => $value) {
+            $whereData[] = sprintf('`%s` = %s', $field, '?');
+            $bind[] = $value;
+        }
+        $whereSql = 'WHERE ' . implode(' AND ', $whereData);
+
+        if ($this->getVar("SELECT 1 FROM `$table` $whereSql", $bind)) {
+            $this->update($table, $data, $where);
+        } else {
+            $this->insert($table, $data);
+        }
+
+    }
+
     public function update(string $table, array $data, array $where): void
     {
         $updateData = [];

@@ -18,10 +18,10 @@ namespace WLib\Db;
  * @method static insertBatch(string $table, array $data)
  * @method static delete(string $table, array $data)
  * @method static update(string $table, array $data, array $where)
- * @method static upsert(string $table, array $data, array $key)
+ * @method static upsert(string $table, array $data, array $where)
  * @method static query(string $sql, array $bindings = [])
  * @method static execute(string $sql, array $bindings = [])
- * @method static getData(string $sql, array $bindings)
+ * @method static getData(string $sql, array $bindings = [])
  * @method static getLine(string $query, array $bindings = [])
  * @method static getVar(string $query, array $bindings = [])
  */
