@@ -40,9 +40,22 @@ class RpcLogMiddleware implements MiddlewareInterface
         $json = json_decode($request->getBody()->getContents(), true);
         $requestId = $json['params'][0] ?? '';
         WCtx::setRequestId($requestId);
-        WLog::record("rpc-request", $json);
-        $response = $handler->handle($request);
-        WLog::record("rpc-response", $response->getBody()->getContents());
+        try {
+            $response = $handler->handle($request);
+            WLog::record("rpc-call", [
+                'request' => $json,
+                'error' => '',
+                'response' => $response->getBody()->getContents(),
+            ]);
+        } catch (\Throwable $e) {
+            WLog::record("rpc-call", [
+                'request' => $json,
+                'error' => $e->getMessage(),
+                'exception' => $e->getTrace(),
+            ]);
+            throw $e;
+        }
+
         return $response;
     }
 
