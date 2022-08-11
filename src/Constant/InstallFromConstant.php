@@ -36,4 +36,16 @@ class InstallFromConstant
      * 贷超
      */
     const MA = 5;
+
+
+    public static function intToName(int $number)
+    {
+        switch ($number) {
+            case self::GG:
+                return "GG";
+            case self::FB:
+                return "FB";
+
+        }
+    }
 }
