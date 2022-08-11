@@ -97,13 +97,15 @@ class NikInfo
         if ($month == 2 && $day == 29 && $dateTime->setTimestamp(mktime(0, 0, 0, 2, 1, $year))->format("L") != '1') {
             return;
         }
-        $this->birthdayTimestamp = mktime(0, 0, 0, $month, $day, $year);
 
-        $tmp1 = $dateTime->setTimestamp($this->now)->format("n,j,Y");
+        $birthday = mktime(0, 0, 0, $month, $day, $year);
+        $tmp1 = $dateTime->setTimestamp($birthday)->format("n,j,Y");
         $t = array_map('intval', explode(",", $tmp1));
         if ($t[0] != $month || $t[1] != $day || $t[2] != $year) {
             return;
         }
+
+        $this->birthdayTimestamp = mktime(0, 0, 0, $month, $day, $year);
 
     }
 
