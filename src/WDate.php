@@ -32,7 +32,7 @@ class WDate
 
     public static function getInstance($country = 'cn'): static
     {
-        return new static('cn');
+        return new static($country);
     }
 
     public function setCountry(string $countryISO2): static
