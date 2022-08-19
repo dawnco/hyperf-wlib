@@ -38,14 +38,20 @@ class InstallFromConstant
     const MA = 5;
 
 
-    public static function intToName(int $number)
+    /**
+     * 获取渠道字符串
+     * @param int $number
+     * @return string
+     */
+    public static function intToName(int $number): string
     {
-        switch ($number) {
-            case self::GG:
-                return "GG";
-            case self::FB:
-                return "FB";
-
-        }
+        return match ($number) {
+            self::GG => "GG",
+            self::FB => "FB",
+            self::TT => "TT",
+            self::NA => "NA",
+            self::MA => "MA",
+            default => '',
+        };
     }
 }
