@@ -18,6 +18,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use WLib\WCtx;
 use WLib\WLog;
+use WLib\WUtil;
 
 class RpcLogMiddleware implements MiddlewareInterface
 {
@@ -37,6 +38,7 @@ class RpcLogMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $startTime = WUtil::milliseconds();
         $json = json_decode($request->getBody()->getContents(), true);
         $requestId = $json['params'][0] ?? '';
         WCtx::setRequestId($requestId);
@@ -48,12 +50,14 @@ class RpcLogMiddleware implements MiddlewareInterface
                 'request' => $json,
                 'error' => '',
                 'response' => $content ? json_decode($content) : [],
+                'useTime' => WUtil::milliseconds() - $startTime, //毫秒
             ]);
         } catch (\Throwable $e) {
             WLog::record("rpc-call", [
                 'request' => $json,
                 'error' => $e->getMessage(),
                 'exception' => $e->getTrace(),
+                'useTime' => WUtil::milliseconds() - $startTime, //毫秒
             ]);
             throw $e;
         }
