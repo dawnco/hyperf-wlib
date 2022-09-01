@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @author Dawnc
- * @date   2022-04-16
+ * @date   2022-09-01
  */
 
 namespace WLib\DbWait;
@@ -12,7 +12,6 @@ namespace WLib\DbWait;
 
 use Hyperf\Database\ConnectionInterface;
 use Hyperf\DbConnection\Db;
-use WLib\Db\WDb;
 use WLib\Db\WDbConnect;
 
 
@@ -57,14 +56,14 @@ class WDbWaitConnect extends WDbConnect
     public function insert(string $table, array $data): void
     {
         wait(function () use ($table, $data) {
-            parent::update($table, $data);
+            parent::insert($table, $data);
         });
     }
 
     public function insertGetId(string $table, array $data): int
     {
         return wait(function () use ($table, $data) {
-            parent::insertGetId($table, $data);
+            return parent::insertGetId($table, $data);
         });
     }
 
