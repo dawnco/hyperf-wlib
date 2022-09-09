@@ -19,6 +19,12 @@ class WMongoClient
 {
     protected Manager $manager;
 
+
+    /**
+     * @param string $name 数据库名称
+     * @param string $ip  ip地址
+     * @param int    $port 端口号
+     */
     public function __construct(protected string $name, protected string $ip = '127.0.0.1', protected int $port = 27017)
     {
         $this->manager = new Manager("mongodb://$ip:$port");
