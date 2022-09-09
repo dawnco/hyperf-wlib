@@ -25,20 +25,21 @@ class WMongoClient
     }
 
     /**
+     * 批量插入
      * @param string $table
      * @param array  $data
-     * @return array 插入的 id
+     * @return array
      */
     public function insertBatch(string $table, array $data): array
     {
-        $writeConcern = new WriteConcern(0, 100);
+        $writeConcern = new WriteConcern(WriteConcern::MAJORITY, 100);
         $bulk = new BulkWrite();
         $ids = [];
         foreach ($data as $v) {
             if (!isset($v['_id'])) {
                 $id = new ObjectId();
-                $ids[] = $id->__toString();
                 $v['_id'] = $id;
+                $ids[] = (string)$id;
             }
             $bulk->insert($v);
         }
@@ -46,20 +47,41 @@ class WMongoClient
         return $ids;
     }
 
+    /**
+     * 单条插入
+     * @param string $table
+     * @param array  $data
+     * @return string 写入的 _id
+     */
     public function insert(string $table, array $data): string
     {
         $ids = $this->insertBatch($table, [$data]);
         return $ids[0] ?? '';
     }
 
-    public function update(string $table, array $data, array $where)
+    /**
+     * 跟新数据
+     * @param string $table
+     * @param array  $data
+     * @param array  $where
+     * @return void
+     */
+    public function update(string $table, array $data, array $where): int
     {
         $writeConcern = new WriteConcern(WriteConcern::MAJORITY, 100);
         $bulk = new BulkWrite();
         $bulk->update($data, $where);
-        $this->manager->executeBulkWrite("{$this->name}.$table", $bulk, $writeConcern);
+        $result = $this->manager->executeBulkWrite("{$this->name}.$table", $bulk, $writeConcern);
+        return $result->getModifiedCount() ?: 0;
     }
 
+    /**
+     * 删除数据
+     * @param string $table
+     * @param array  $where
+     * @param array  $opts ['limit'=> "是否删除匹配的第一条记录 默认是"]
+     * @return int 删除的行数
+     */
     public function delete(
         string $table,
         array $where,
@@ -78,11 +100,47 @@ class WMongoClient
         return $result->getDeletedCount();
     }
 
-    public function query($table, array $filter, array $options = []): array
+    /**
+     * 查询
+     * @param string $table
+     * @param array  $filter
+     * @param array  $options
+     * @return array
+     */
+    public function query(string $table, array $filter, array $options = []): array
     {
         $query = new Query($filter, $options);
         $cursor = $this->manager->executeQuery($this->name . "." . $table, $query);
         $cursor->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
         return $cursor->toArray();
     }
+
+    /**
+     * 记录是否存在 存在返回 ObjectId 不存在返回 null
+     * @param string $table
+     * @param array  $filter
+     * @param array  $options
+     * @return string
+     */
+    public function exist(string $table, array $filter, array $options = []): string
+    {
+        $options['limit'] = 1;
+        // 返回指定字段
+        $options['projection'] = ['_id' => 1];
+
+        $query = new Query($filter, $options);
+        $cursor = $this->manager->executeQuery($this->name . "." . $table, $query);
+        $data = $cursor->toArray();
+
+        return isset($data[0]) ? (string)($data[0]->_id) : "";
+    }
+
+    /**
+     * @return Manager
+     */
+    public function getManager(): Manager
+    {
+        return $this->manager;
+    }
+
 }
