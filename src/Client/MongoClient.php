@@ -46,6 +46,8 @@ class MongoClient
                 $id = new ObjectId();
                 $v['_id'] = $id;
                 $ids[] = (string)$id;
+            } else {
+                $ids [] = (string)$v['_id'];
             }
             $bulk->insert($v);
         }
@@ -66,11 +68,11 @@ class MongoClient
     }
 
     /**
-     * 跟新数据
+     * 更新数据
      * @param string $table
      * @param array  $data
      * @param array  $where
-     * @return void
+     * @return int 修改的行数
      */
     public function update(string $table, array $data, array $where): int
     {
@@ -122,7 +124,7 @@ class MongoClient
     }
 
     /**
-     * 记录是否存在 存在返回 ObjectId 不存在返回 null
+     * 记录是否存在 存在返回 ObjectId 不存在返回 空字符串
      * @param string $table
      * @param array  $filter
      * @param array  $options
