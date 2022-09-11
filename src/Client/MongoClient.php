@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @date   2022-09-09
  */
 
-namespace WLib;
+namespace WLib\Client;
 
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\BulkWrite;
@@ -15,14 +15,14 @@ use MongoDB\Driver\Manager;
 use MongoDB\Driver\Query;
 use MongoDB\Driver\WriteConcern;
 
-class WMongoClient
+class MongoClient
 {
     protected Manager $manager;
 
 
     /**
      * @param string $name 数据库名称
-     * @param string $ip  ip地址
+     * @param string $ip   ip地址
      * @param int    $port 端口号
      */
     public function __construct(protected string $name, protected string $ip = '127.0.0.1', protected int $port = 27017)
