@@ -14,20 +14,50 @@ use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\Query;
 use MongoDB\Driver\WriteConcern;
+use WLib\WConfig;
 
 class MongoClient
 {
     protected Manager $manager;
 
+    protected string $uri;
 
     /**
      * @param string $name 数据库名称
      * @param string $ip   ip地址
      * @param int    $port 端口号
      */
-    public function __construct(protected string $name, protected string $ip = '127.0.0.1', protected int $port = 27017)
+    public function __construct(
+        protected string $name,
+        protected string $host = '127.0.0.1',
+        protected int $port = 27017,
+        protected string $username = '',
+        protected string $password = '',
+    ) {
+        if ($this->username && $this->password) {
+            $this->uri = sprintf("mongodb://%s:%s@%s:%s", $this->username, rawurlencode($this->password), $this->host,
+                $this->port);
+        } else {
+            $this->uri = sprintf("mongodb://%s:%s", $this->host, $this->port);
+        }
+        $this->manager = new Manager($this->uri);
+    }
+
+    public static function getInstance(): self
     {
-        $this->manager = new Manager("mongodb://$ip:$port");
+        $conf = WConfig::get('mongo.default');
+
+        $host = $conf['host'] ?? '127.0.0.1';
+        $port = $conf['port'] ?? 27017;
+        $database = $conf['database'] ?? 27017;
+        $username = $conf['username'] ?? '';
+        $password = $conf['password'] ?? '';
+        return new self($database, $host, $port, $username, $password);
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     /**
