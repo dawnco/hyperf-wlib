@@ -104,11 +104,11 @@ class MongoClient
      * @param array  $where
      * @return int 修改的行数
      */
-    public function update(string $table, array $data, array $where): int
+    public function update(string $table, array $data, array $where, array $options = []): int
     {
         $writeConcern = new WriteConcern(WriteConcern::MAJORITY, 100);
         $bulk = new BulkWrite();
-        $bulk->update($where, $data);
+        $bulk->update($where, $data, $options);
         $result = $this->manager->executeBulkWrite("{$this->name}.$table", $bulk, $writeConcern);
         return $result->getModifiedCount() ?: 0;
     }
