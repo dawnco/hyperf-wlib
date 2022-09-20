@@ -108,7 +108,7 @@ class MongoClient
     {
         $writeConcern = new WriteConcern(WriteConcern::MAJORITY, 100);
         $bulk = new BulkWrite();
-        $bulk->update($data, $where);
+        $bulk->update($where, $data);
         $result = $this->manager->executeBulkWrite("{$this->name}.$table", $bulk, $writeConcern);
         return $result->getModifiedCount() ?: 0;
     }
