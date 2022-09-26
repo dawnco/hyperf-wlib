@@ -37,6 +37,11 @@ class InstallFromConstant
      */
     const MA = 5;
 
+    /**
+     * 营销短信
+     */
+    const SM = 6;
+
 
     /**
      * 获取渠道字符串
@@ -51,6 +56,7 @@ class InstallFromConstant
             self::TT => "TT",
             self::NA => "NA",
             self::MA => "MA",
+            self::SM => "SM",
             default => '',
         };
     }
