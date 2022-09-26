@@ -49,7 +49,7 @@ class MongoClient
 
         $host = $conf['host'] ?? '127.0.0.1';
         $port = $conf['port'] ?? 27017;
-        $database = $conf['database'] ?? 27017;
+        $database = $conf['database'] ?? 'test';
         $username = $conf['username'] ?? '';
         $password = $conf['password'] ?? '';
         return new self($database, $host, $port, $username, $password);
