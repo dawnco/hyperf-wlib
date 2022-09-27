@@ -11,6 +11,9 @@ namespace WLib;
 
 use WLib\Db\Db;
 
+/**
+ * @deprecated 请使用 \WLib\Db\WDb
+ */
 class WDb extends \WLib\Db\WDb
 {
 
