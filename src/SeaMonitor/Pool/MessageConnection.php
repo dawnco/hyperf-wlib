@@ -35,11 +35,7 @@ class MessageConnection implements ConnectionInterface
         $host = WConfig::get('sea_monitor_push.host', '172.21.67.61');
         $port = (int)WConfig::get('sea_monitor_push.port', 9799);
 
-        if ($this->client->isConnected()) {
-            return;
-        }
-
-        if ($this->client->connect($host, $port)) {
+        if (!$this->client->connect($host, $port)) {
             $this->client->close();
             $this->client->connect($host, $port);
         }
@@ -73,7 +69,7 @@ class MessageConnection implements ConnectionInterface
     }
 
 
-    public function read()
+    public function read(): string
     {
         return $this->client->recv(3) ?: '';
     }
