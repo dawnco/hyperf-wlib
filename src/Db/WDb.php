@@ -16,6 +16,8 @@ namespace WLib\Db;
  * @method static insert(string $table, array $data)
  * @method static insertGetId(string $table, array $data)
  * @method static insertBatch(string $table, array $data)
+ * @method static insertOnReplace(string $table, array $data)
+ * @method static insertOnDuplicate(string $table, array $data)
  * @method static delete(string $table, array $data)
  * @method static update(string $table, array $data, array $where)
  * @method static upsert(string $table, array $data, array $where)

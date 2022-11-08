@@ -74,6 +74,21 @@ class WDbWaitConnect extends WDbConnect
         });
     }
 
+    public function insertOnReplace(string $table, array $data): int
+    {
+        return wait(function () use ($table, $data) {
+            return parent::insertOnReplace($table, $data);
+        });
+    }
+
+    public function insertOnDuplicate(string $table, array $data): void
+    {
+        wait(function () use ($table, $data) {
+            parent::insertOnDuplicate($table, $data);
+        });
+    }
+
+
     public function delete(string $table, array $where): void
     {
         wait(function () use ($table, $where) {

@@ -107,6 +107,56 @@ class WDbConnect
 
     }
 
+    /**
+     * 如果 数据唯一KEY存在,删除旧数据再插入新数据, 不存在则插入
+     * @param string $table
+     * @param array  $data
+     * @return int
+     */
+    public function insertOnReplace(string $table, array $data): int
+    {
+        $fields = [];
+        $values = [];
+        foreach ($data as $field => $value) {
+            $fields[] = "`{$field}`";
+            $values[] = '?';
+        }
+        $insert_fields = implode(', ', $fields);
+        $insert_data = implode(', ', $values);
+        $sql = "REPLACE INTO `{$table}` ({$insert_fields}) values ({$insert_data})";
+
+        $connection = $this->getConnection();
+        return $connection->affectingStatement($sql, array_values($data));
+    }
+
+    /**
+     * 如果唯一KEY存在更新表,不存在则插入
+     * @param string $table
+     * @param array  $data
+     * @return int
+     */
+    public function insertOnDuplicate(string $table, array $data): int
+    {
+
+        $fields = [];
+        $values = [];
+        $duplicate = [];
+        foreach ($data as $field => $value) {
+            $fields[] = "`{$field}`";
+            $values[] = '?';
+            $duplicate[] = "`$field`=?";
+        }
+        $insert_fields = implode(', ', $fields);
+        $insert_data = implode(', ', $values);
+        $sql =
+            "INSERT INTO `{$table}` ({$insert_fields}) values ({$insert_data}) ON DUPLICATE KEY UPDATE " . implode(",",
+                $duplicate);
+
+        $connection = $this->getConnection();
+        $val = array_values($data);
+        return $connection->affectingStatement($sql, array_merge($val, $val));
+    }
+
     public function insertGetId(string $table, array $data): int
     {
         $this->insert($table, $data);
