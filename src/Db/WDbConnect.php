@@ -135,7 +135,7 @@ class WDbConnect
      * @param array  $data
      * @return int
      */
-    public function insertOnDuplicate(string $table, array $data): int
+    public function insertOnDuplicate(string $table, array $data, array $update): int
     {
 
         $fields = [];
@@ -144,8 +144,12 @@ class WDbConnect
         foreach ($data as $field => $value) {
             $fields[] = "`{$field}`";
             $values[] = '?';
-            $duplicate[] = "`$field`=?";
         }
+
+        foreach ($update as $field => $value) {
+            $duplicate[] = "`$field` = ?";
+        }
+
         $insert_fields = implode(', ', $fields);
         $insert_data = implode(', ', $values);
         $sql =
@@ -154,7 +158,8 @@ class WDbConnect
 
         $connection = $this->getConnection();
         $val = array_values($data);
-        return $connection->affectingStatement($sql, array_merge($val, $val));
+        $upVal = array_values($data);
+        return $connection->affectingStatement($sql, array_merge($val, $upVal));
     }
 
     public function insertGetId(string $table, array $data): int
