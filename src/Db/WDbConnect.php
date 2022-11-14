@@ -158,7 +158,7 @@ class WDbConnect
 
         $connection = $this->getConnection();
         $val = array_values($data);
-        $upVal = array_values($data);
+        $upVal = array_values($update);
         return $connection->affectingStatement($sql, array_merge($val, $upVal));
     }
 
