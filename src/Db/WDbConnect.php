@@ -92,19 +92,7 @@ class WDbConnect
 
     public function insert(string $table, array $data): void
     {
-        $fields = [];
-        $values = [];
-        foreach ($data as $field => $value) {
-            $fields[] = "`{$field}`";
-            $values[] = '?';
-        }
-        $insert_fields = implode(', ', $fields);
-        $insert_data = implode(', ', $values);
-        $sql = "INSERT INTO `{$table}` ({$insert_fields}) values ({$insert_data})";
-
-        $connection = $this->getConnection();
-        $connection->insert($sql, array_values($data));
-
+        $this->insertCmd($table, $data, 'INSERT');
     }
 
     /**
@@ -115,6 +103,22 @@ class WDbConnect
      */
     public function insertOnReplace(string $table, array $data): int
     {
+        return $this->insertCmd($table, $data, 'REPLACE');
+    }
+
+    /**
+     * 如果 数据唯一KEY存在则不插入
+     * @param string $table
+     * @param array  $data
+     * @return int
+     */
+    public function insertOnIgnore(string $table, array $data): int
+    {
+        return $this->insertCmd($table, $data, 'INSERT IGNORE');
+    }
+
+    protected function insertCmd(string $table, array $data, string $cmd): int
+    {
         $fields = [];
         $values = [];
         foreach ($data as $field => $value) {
@@ -123,8 +127,7 @@ class WDbConnect
         }
         $insert_fields = implode(', ', $fields);
         $insert_data = implode(', ', $values);
-        $sql = "REPLACE INTO `{$table}` ({$insert_fields}) values ({$insert_data})";
-
+        $sql = "$cmd INTO `{$table}` ({$insert_fields}) values ({$insert_data})";
         $connection = $this->getConnection();
         return $connection->affectingStatement($sql, array_values($data));
     }
