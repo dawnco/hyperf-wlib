@@ -30,6 +30,11 @@ class CountryConstant
     const CO = 3;
 
     /**
+     * 墨西哥
+     */
+    const MX = 4;
+
+    /**
      * 转换为数字国家
      * @throws AppException
      */
@@ -40,6 +45,7 @@ class CountryConstant
             'ID' => self::ID,
             'NG' => self::NG,
             'CO' => self::CO,
+            'MX' => self::MX,
             default => throw new AppException("not defined country $code2"),
         };
     }

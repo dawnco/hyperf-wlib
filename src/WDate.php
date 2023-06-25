@@ -11,13 +11,13 @@ namespace WLib;
 
 class WDate
 {
-
     private static array $map = [
         'uk' => 'Europe/London',
         'cn' => 'Asia/Shanghai',
         'id' => 'Asia/Jakarta',
         'ng' => 'Africa/Lagos',
         'in' => 'Asia/Kolkata', // 印度
+        'mx' => 'America/Mexico_City', //墨西哥
     ];
 
     private \DateTime $dateTime;
