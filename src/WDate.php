@@ -17,7 +17,7 @@ class WDate
         'id' => 'Asia/Jakarta',
         'ng' => 'Africa/Lagos',
         'in' => 'Asia/Kolkata', // 印度
-        'mx' => 'America/Mexico_City', //墨西哥
+        'mx' => 'America/Costa_Rica', //墨西哥用哥斯达黎加 UTC-6
     ];
 
     private \DateTime $dateTime;
