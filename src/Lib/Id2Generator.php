@@ -28,7 +28,7 @@ class Id2Generator
         }
         $key = "ID2GEN:{$systemCode}:{$timestamp}";
         $incr = self::incr($key);
-        $str = sprintf("%s%s%s%s", $systemCode, strrev((string)$timestamp), rand(1, 9), $incr);
+        $str = sprintf("%s%s%s", $systemCode, strrev((string)$timestamp), $incr);
         return intval($str);
 
     }
@@ -44,7 +44,7 @@ class Id2Generator
         $string = (string)$id;
         $systemCode = (int)substr($string, 0, 1); // 系统编码
         $timestamp = (int)strrev(substr($string, 1, 10)); // 年份编码
-        $incr = (int)substr($string, 12); // 自增
+        $incr = (int)substr($string, 11); // 自增
         $year = (int)date("Y", $timestamp);
         $month = (int)date("n", $timestamp);
         $day = (int)date("j", $timestamp);
