@@ -19,6 +19,7 @@ use WLib\WRedis;
 
 /**
  * 订单sn生成器
+ * @deprecated  使用 Id2Generator
  */
 class SnGenerator
 {

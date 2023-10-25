@@ -14,6 +14,7 @@ use WLib\WRedis;
 
 
 /**
+ * @deprecated  使用 Id2Generator
  */
 class IdGenerator
 {
