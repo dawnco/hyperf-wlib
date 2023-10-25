@@ -84,7 +84,7 @@ class Id2Generator
             -- local key = {$key} .. KEYS[1]
             local key = ARGV[1]
             local incr = redis.call('incr', key)
-            redis.call('expire', key, 2)
+            redis.call('expire', key, 60)
             return incr
 EOT;
             $sha = $redis->script('load', $script);
