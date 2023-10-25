@@ -16,17 +16,6 @@ class Id2Generator
 {
 
     /**
-     * @var int 系统编码 1-9
-     */
-    protected static int $systemCode = 1;
-
-    /**
-     * 初始年份
-     * @var int
-     */
-    protected static int $initialYear = 2000;
-
-    /**
      * 生成订单号  时区要指定成当地时区
      * @param $timestamp  int  秒时间戳  未指定用 系统的
      * @param $systemCode int  系统编码 1-9
@@ -37,17 +26,11 @@ class Id2Generator
         if (!$timestamp) {
             $timestamp = time();
         }
-        [$year, $month, $day] = explode('-', date('Y-n-d', $timestamp));
-        $yearCode = $year - self::$initialYear;
-        $diffMonth = (string)(12 - $month);
-        $monthCode = str_pad($diffMonth, 2, '0', STR_PAD_LEFT);
-        $beginSecond = strtotime(date('Y-m-d', $timestamp));
-        $diffSecond = $timestamp - $beginSecond;
-        $diffSecondCode = str_pad("{$diffSecond}", 5, '0', STR_PAD_LEFT);
         $key = "ID2GEN:{$systemCode}:{$timestamp}";
         $incr = self::incr($key);
-        $incr = str_pad("{$incr}", 4, '0', STR_PAD_LEFT);
-        return (int)($systemCode . "{$yearCode}{$day}{$incr}{$monthCode}{$diffSecondCode}");
+        $str = sprintf("%s%s%s%s", $systemCode, strrev((string)$timestamp), rand(1, 9), $incr);
+        return intval($str);
+
     }
 
     /**
@@ -57,18 +40,17 @@ class Id2Generator
      */
     public static function parse(int|string $id): array
     {
+
         $string = (string)$id;
         $systemCode = (int)substr($string, 0, 1); // 系统编码
-        $year = (int)substr($string, 1, 2) + self::$initialYear; // 年份编码
-        $day = (int)substr($string, 3, 2); // 日期编码
-        $incr = (int)substr($string, 5, 4); // 自增编码
-        $month = 12 - (int)substr($string, 9, 2); // 月份编码
-        $diffSecond = (int)substr($string, 11, 5); // 当日秒编码
-        $timestamp = strtotime("$year-$month-$day") + $diffSecond;
-        $ym = sprintf("%s%s", str_pad(strval($year - 2000), 2, "0", STR_PAD_LEFT),
-            str_pad(strval($month), 2, "0", STR_PAD_LEFT));
+        $timestamp = (int)strrev(substr($string, 1, 10)); // 年份编码
+        $incr = (int)substr($string, 12); // 自增
+        $year = (int)date("Y", $timestamp);
+        $month = (int)date("n", $timestamp);
+        $day = (int)date("j", $timestamp);
+        $ym = date("ym", $timestamp);
 
-        return compact('systemCode', 'timestamp', 'ym', 'year', 'month', 'day', 'incr', 'diffSecond');
+        return compact('systemCode', 'timestamp', 'ym', 'year', 'month', 'day', 'incr');
     }
 
     /**
