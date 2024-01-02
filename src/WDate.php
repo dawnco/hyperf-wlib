@@ -18,6 +18,7 @@ class WDate
         'ng' => 'Africa/Lagos',
         'in' => 'Asia/Kolkata', // 印度
         'mx' => 'America/Costa_Rica', //墨西哥用哥斯达黎加 UTC-6
+        'tz' => 'Africa/Dar_es_Salaam',
     ];
 
     private \DateTime $dateTime;
