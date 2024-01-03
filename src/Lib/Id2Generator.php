@@ -21,14 +21,20 @@ class Id2Generator
      * @param $systemCode int  系统编码 1-9
      * @return int
      */
-    public static function gen(int $timestamp = 0, int $systemCode = 1): int
+    public static function gen(int $timestamp = 0, int $systemCode = 2): int
     {
         if (!$timestamp) {
             $timestamp = time();
         }
         $key = "ID2GEN:{$systemCode}:{$timestamp}";
         $incr = self::incr($key);
-        $str = sprintf("%s%s%s", $systemCode, strrev((string)$timestamp), $incr);
+
+        if ($systemCode == 1) {
+            $str = sprintf("%s%s%s", $systemCode, strrev((string)$timestamp), $incr);
+        } else {
+            $str = sprintf("%s%s%s", $systemCode, $timestamp, $incr);
+        }
+
         return intval($str);
 
     }
@@ -43,7 +49,14 @@ class Id2Generator
 
         $string = (string)$id;
         $systemCode = (int)substr($string, 0, 1); // 系统编码
-        $timestamp = (int)strrev(substr($string, 1, 10)); // 年份编码
+
+        if ($systemCode == 1) {
+            // 反转时间戳
+            $timestamp = (int)strrev(substr($string, 1, 10)); // 年份编码
+        } else {
+            $timestamp = (int)substr($string, 1, 10); // 年份编码
+        }
+
         $incr = (int)substr($string, 11); // 自增
         $year = (int)date("Y", $timestamp);
         $month = (int)date("n", $timestamp);
