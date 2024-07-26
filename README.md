@@ -14,3 +14,13 @@ composer require dawnco/hyperf-wlib
 config/middleware.php
 修改
 config/dependencies.php
+
+
+
+删除本地tag
+git tag -d v1.0.0
+删除远程tag
+git push origin --delete v3.0.70
+
+推送tag
+git push origin v1.0.0
