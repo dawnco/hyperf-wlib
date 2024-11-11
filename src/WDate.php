@@ -20,10 +20,13 @@ class WDate
         'cn' => 'Asia/Shanghai',
         'id' => 'Asia/Jakarta',
         'ng' => 'Africa/Lagos',
-        'in' => 'Asia/Kolkata', // 印度
-        'mx' => 'America/Costa_Rica', //墨西哥用哥斯达黎加 UTC-6
-        'tz' => 'Africa/Dar_es_Salaam',
-        'gh' => 'Africa/Accra'
+        'in' => 'Asia/Kolkata',           // 印度
+        'mx' => 'America/Costa_Rica',     //墨西哥用哥斯达黎加 UTC-6
+        'tz' => 'Africa/Dar_es_Salaam',   // 坦桑尼亚
+        'gh' => 'Africa/Accra',           // 加纳
+        'rw' => 'Africa/Kigali',          // 卢旺达
+        'lk' => 'Asia/Colombo',           // 斯里兰卡
+        'ao' => 'Africa/Luanda',          // 安哥拉
     ];
 
     private \DateTime $dateTime;
