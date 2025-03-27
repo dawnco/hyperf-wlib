@@ -66,6 +66,47 @@ class LogCenter
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $host);
     }
 
+
+    /**
+     * 外部请求成功记录 用于查询请求成功的记录
+     * @param string $requestId
+     * @param string $service   请求那个服务 比如  otp ocr live
+     * @param string $provider  提供商 比如  infinity kmi 小写
+     * @param int    $appId     那个app
+     * @param string $note      备注
+     * @param string $key       用于区分的1
+     * @param string $group     用于区分的2
+     * @param int    $timestamp 发生时间
+     * @return void
+     */
+    public static function thirdApiCallLog(
+        string $requestId,
+        string $service,
+        string $provider,
+        int $appId,
+        string $note = "",
+        string $key = "",
+        string $group = "",
+        int $timestamp = 0,
+    ): void {
+        $t = $timestamp ?: time();
+        self::globalRecord(
+            "third-api-call",
+            [
+                "requestId" => $requestId,
+                "service" => strtolower($service),
+                "provider" => strtolower($provider),
+                "appId" => strval($appId),
+                "note" => $note,
+                "key" => $key,
+                "group" => $group,
+                "date" => date("Y-m-d", $t),
+                "month" => date("Y-m", $t),
+                "timestamp" => strval($t),
+            ]
+        );
+    }
+
     protected static function send(string $data, string $host): void
     {
 
