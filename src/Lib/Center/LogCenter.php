@@ -29,7 +29,7 @@ class LogCenter
         self::log($store, $data, "log.stat.com:8844", $timestamp);
     }
 
-    public static function GlobalRecord(
+    public static function globalRecord(
         string $store,
         array $data,
         int $timestamp = 0
