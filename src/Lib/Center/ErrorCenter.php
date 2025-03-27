@@ -15,8 +15,6 @@ use WLib\WLog;
 class ErrorCenter
 {
 
-    private static $stream = null;
-
     /**
      * 发送错误需要处理的时候记录的错误日志
      * @param array $data 格式 查看 文档
@@ -64,18 +62,9 @@ class ErrorCenter
 
     protected static function send(string $data): void
     {
-
-        if (self::$stream == null) {
-            self::$stream = stream_socket_client("udp://error.log.stat.com:9823", $errno, $error);
-            if (!self::$stream) {
-                return;
-            }
-            // https://www.php.net/manual/zh/function.stream-set-blocking.php
-            stream_set_blocking(self::$stream, false);
-        }
         $str = self::pack($data);
-        if ($str && self::$stream) {
-            fwrite(self::$stream, $str);
+        if ($str) {
+            Client::send($str, "error.log.stat.com:9823");
         }
     }
 

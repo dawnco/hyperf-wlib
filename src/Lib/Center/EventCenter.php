@@ -15,7 +15,7 @@ use WLib\WLog;
 class EventCenter
 {
 
-    private static $stream = null;
+    private static $client = null;
 
     /**
      * 发送事件数据
@@ -48,18 +48,9 @@ class EventCenter
 
     protected static function send(string $data): void
     {
-
-        if (self::$stream == null) {
-            self::$stream = stream_socket_client("udp://center.stat.com:9820", $errno, $error);
-            if (!self::$stream) {
-                return;
-            }
-            // https://www.php.net/manual/zh/function.stream-set-blocking.php
-            stream_set_blocking(self::$stream, false);
-        }
         $str = self::pack($data);
-        if ($str && self::$stream) {
-            fwrite(self::$stream, $str);
+        if ($str) {
+            Client::send($str, "center.stat.com:9820");
         }
     }
 

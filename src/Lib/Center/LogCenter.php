@@ -14,7 +14,8 @@ use WLib\WLog;
 class LogCenter
 {
 
-    private static $stream = null;
+    protected static array $client = [];
+
 
     /**
      * 记录到sls
@@ -28,6 +29,31 @@ class LogCenter
         array $data,
         int $timestamp = 0
     ): void {
+        self::log($store, $data, "log.stat.com:8844", $timestamp);
+    }
+
+    public static function GlobalRecord(
+        string $store,
+        array $data,
+        int $timestamp = 0
+    ): void {
+        self::log($store, $data, "global.log.stat.com:8844", $timestamp);
+    }
+
+    /**
+     * 记录到sls 可以指定 host
+     * @param string $store     那个store
+     * @param array  $data      key和value的类型必须是字符串 格式 ["key"=>"value", "name"=>"jard", "age"=>"25"]
+     * @param string $host      格式  127.0.0.1:8080
+     * @param int    $timestamp 秒时间戳 默认当前秒
+     * @return void
+     */
+    public static function log(
+        string $store,
+        array $data,
+        string $host,
+        int $timestamp = 0,
+    ): void {
 
         $kv = [];
         foreach ($data as $k => $v) {
@@ -40,24 +66,17 @@ class LogCenter
             "t" => $timestamp ?: time(), // 时间戳 秒
             "store" => $store, // 那个store
             "kv" => $kv
-        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $host);
     }
 
-    protected static function send(string $data): void
+    protected static function send(string $data, string $host): void
     {
 
-        if (self::$stream == null) {
-            self::$stream = stream_socket_client("udp://log.stat.com:8844", $errno, $error);
-            if (!self::$stream) {
-                return;
-            }
-            // https://www.php.net/manual/zh/function.stream-set-blocking.php
-            stream_set_blocking(self::$stream, false);
-        }
         $str = self::pack($data);
-        if ($str && self::$stream) {
-            fwrite(self::$stream, $str);
+        if ($str) {
+            Client::send($str, $host);
         }
+
     }
 
     protected static function pack(string $data): string
