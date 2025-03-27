@@ -15,8 +15,6 @@ use WLib\WLog;
 class EventCenter
 {
 
-    private static $client = null;
-
     /**
      * 发送事件数据
      * @param string $name      事件名称

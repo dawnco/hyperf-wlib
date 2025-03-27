@@ -14,9 +14,6 @@ use WLib\WLog;
 class LogCenter
 {
 
-    protected static array $client = [];
-
-
     /**
      * 记录到sls
      * @param string $store     那个store
