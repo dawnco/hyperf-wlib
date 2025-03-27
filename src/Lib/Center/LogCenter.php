@@ -87,7 +87,7 @@ class LogCenter
         string $note = "",
         string $key = "",
         string $group = "",
-        int $timestamp = 0,
+        int $timestamp = 0
     ): void {
         $t = $timestamp ?: time();
         self::globalRecord(
