@@ -31,6 +31,6 @@ class Client
             WLog::error("Center 客户端不存在 $hostAndPort");
             return;
         }
-        fwrite(self::$client[$hostAndPort], $data);
+        @fwrite(self::$client[$hostAndPort], $data);
     }
 }
