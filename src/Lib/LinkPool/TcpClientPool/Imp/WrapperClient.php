@@ -43,7 +43,7 @@ class WrapperClient
         $invalid = $this->client->connected && (time() - $this->lastUseTime < $ttl) && ($this->useCount < $maxUses);
 
         if (!$invalid) {
-            WLog::error(sprintf("连接失效重连 TCP connected %s lastUseTime %s  < c:%s? ,useCount %s < c:%s ?",
+            WLog::info(sprintf("连接失效重连 TCP connected %s lastUseTime %s  < c:%s? ,useCount %s < c:%s ?",
                 $this->client->connected,
                 time() - $this->lastUseTime,
                 $ttl,
