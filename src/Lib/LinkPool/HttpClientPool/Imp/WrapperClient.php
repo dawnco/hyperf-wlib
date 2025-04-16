@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace WLib\Lib\LinkPool\HttpClientPool\Imp;
 
+use Swoole\Coroutine\Http\Client;
 use WLib\WLog;
 
 class WrapperClient
@@ -17,9 +18,9 @@ class WrapperClient
     public int $useCount = 0;
     public int $lastUseTime;
 
-    public function __construct(\Swoole\Coroutine\Http\Client $client)
+    public function __construct(protected string $host, protected int $port, protected bool $ssl)
     {
-        $this->client = $client;
+        $this->client = new Client($this->host, $this->port, $this->ssl);
         $this->client->set([
             "timeout" => 10,
         ]);
@@ -43,7 +44,9 @@ class WrapperClient
         $invalid = $this->client->connected && (time() - $this->lastUseTime < $ttl) && ($this->useCount < $maxUses);
 
         if (!$invalid) {
-            WLog::info(sprintf("连接失效重连 HTTP connected %s lastUseTime %s  < c:%s? ,useCount %s < c:%s ?",
+            WLog::info(sprintf("连接失效重连 HTTP %s:%s connected %s lastUseTime %s ago  < c:%s? ,useCount %s < c:%s ?",
+                $this->host,
+                $this->port,
                 $this->client->connected,
                 time() - $this->lastUseTime,
                 $ttl,

@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace WLib\Lib\LinkPool\HttpClientPool\Imp;
 
 use Swoole\Coroutine\Channel;
-use Swoole\Coroutine\Http\Client;
 use WLib\WLog;
 
 class ConnectionPool
@@ -42,7 +41,7 @@ class ConnectionPool
 
     public function createClient(): WrapperClient
     {
-        return new WrapperClient(new Client($this->host, $this->port, $this->ssl));
+        return new WrapperClient($this->host, $this->port, $this->ssl);
     }
 
     public function get(): WrapperClient
@@ -66,7 +65,11 @@ class ConnectionPool
     public function put(WrapperClient $wrapper): void
     {
         if (!$wrapper->isReusable()) {
-            WLog::error(sprintf("连接不可复用了 %s:%s", $this->host, $this->port));
+            WLog::error(sprintf("HTTP 连接不可复用了 %s:%s useCount %s lastUseTime %s ago",
+                $this->host,
+                $this->port,
+                $wrapper->useCount,
+                time() - $wrapper->lastUseTime));
             $wrapper->client->close();
             return;
         }

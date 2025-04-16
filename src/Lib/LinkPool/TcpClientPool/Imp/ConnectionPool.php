@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace WLib\Lib\LinkPool\TcpClientPool\Imp;
 
-use Swoole\Coroutine;
 use Swoole\Coroutine\Channel;
-use Swoole\Coroutine\Client;
 use WLib\WLog;
 
 class ConnectionPool
@@ -40,16 +38,7 @@ class ConnectionPool
 
     public function createClient(): WrapperClient
     {
-        $client = new Client(SWOOLE_SOCK_TCP);
-        $ok = $client->connect($this->host, $this->port, 30);
-        if (!$ok) {
-            //连接失败重试一次
-            $client->close();
-            Coroutine::sleep(0.05);
-            WLog::error(sprintf("尝试重新连接 %s:%s", $this->host, $this->port));
-            $client->connect($this->host, $this->port, 30);
-        }
-        return new WrapperClient($client);
+        return new WrapperClient($this->host, $this->port);
     }
 
     public function get(): WrapperClient
@@ -72,7 +61,18 @@ class ConnectionPool
 
     public function put(WrapperClient $wrapper): void
     {
-        if (!$wrapper->isReusable() || $this->channel->isFull()) {
+
+        if (!$wrapper->isReusable()) {
+            WLog::error(sprintf("TCP 连接不可复用了 %s:%s useCount %s lastUseTime %s ago",
+                $this->host,
+                $this->port,
+                $wrapper->useCount,
+                time() - $wrapper->lastUseTime));
+            $wrapper->client->close();
+            return;
+        }
+
+        if ($this->channel->isFull()) {
             $wrapper->client->close();
         } else {
             $this->channel->push($wrapper);
