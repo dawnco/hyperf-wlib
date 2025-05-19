@@ -54,6 +54,7 @@ class HttpClientPool
             if ($method === 'POST') {
                 $wrapper->client->post($path, $options['data']);
             } else {
+                $wrapper->client->setData("");  // 处理客户端GET复用的问题
                 $wrapper->client->get($path);
             }
 
