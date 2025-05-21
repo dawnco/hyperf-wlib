@@ -65,7 +65,7 @@ class ConnectionPool
     public function put(WrapperClient $wrapper): void
     {
         if (!$wrapper->isReusable()) {
-            WLog::error(sprintf("HTTP 连接不可复用了 %s:%s useCount %s lastUseTime %s ago",
+            WLog::info(sprintf("HTTP 连接不可复用了 %s:%s useCount %s lastUseTime %s ago",
                 $this->host,
                 $this->port,
                 $wrapper->useCount,

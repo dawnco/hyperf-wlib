@@ -16,6 +16,6 @@ class PoolCnf
     // 多少秒内没请求关闭连接
     public static int $ttl = 60;
     // 每个连接最大请求次数
-    public static int $maxUses = 30000;
+    public static int $maxUses = 5000;
 
 }

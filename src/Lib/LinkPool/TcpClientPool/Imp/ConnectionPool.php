@@ -63,7 +63,7 @@ class ConnectionPool
     {
 
         if (!$wrapper->isReusable()) {
-            WLog::error(sprintf("TCP 连接不可复用了 %s:%s useCount %s lastUseTime %s ago",
+            WLog::info(sprintf("TCP 连接不可复用了 %s:%s useCount %s lastUseTime %s ago",
                 $this->host,
                 $this->port,
                 $wrapper->useCount,
@@ -73,6 +73,7 @@ class ConnectionPool
         }
 
         if ($this->channel->isFull()) {
+            WLog::error(sprintf("TCP 连接已经满了 %s:%s", $this->host, $this->port));
             $wrapper->client->close();
         } else {
             $this->channel->push($wrapper);
