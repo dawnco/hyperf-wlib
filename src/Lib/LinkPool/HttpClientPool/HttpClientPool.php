@@ -61,7 +61,7 @@ class HttpClientPool
             $response = new HttpResponse($wrapper->client);
             $pool->put($wrapper);
             return $response;
-        });
+        }, $options['maxRetries'] ?? 2);
 
 
     }
