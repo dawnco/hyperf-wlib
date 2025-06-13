@@ -22,7 +22,7 @@ class WrapperClient
     {
         $this->client = new Client($this->host, $this->port, $this->ssl);
         $this->client->set([
-            "timeout" => 10,
+            "timeout" => PoolCnf::$httpTimeout,
         ]);
         $this->lastUseTime = time();
     }
