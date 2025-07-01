@@ -75,7 +75,7 @@ class ErrorCenter
         $remain = pack('C', 1);
         $size = pack('N', $length);
 
-        if ($length > 10235) {
+        if ($length > 65535) {
             WLog::error("ErrorCenter 数据过长", ["data" => $data]);
             return "";
         }
