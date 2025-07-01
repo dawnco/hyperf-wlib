@@ -59,7 +59,7 @@ class EventCenter
         $remain = pack('C', 1);
         $size = pack('n', $length);
 
-        if ($length > 65535) {
+        if ($length > 65500) {
             WLog::error("EventCenter 数据过长", ["data" => $data]);
             return "";
         }
