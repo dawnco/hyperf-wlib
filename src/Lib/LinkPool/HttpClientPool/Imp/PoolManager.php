@@ -13,14 +13,14 @@ class PoolManager
 {
     private static array $pools = [];
 
-    public static function getPool(string $host, int $port, bool $ssl): ConnectionPool
+    public static function getPool(string $host, int $port, bool $ssl, array $options): ConnectionPool
     {
         $key = "$host:$port:" . ($ssl ? '1' : '0');
         if (!isset(self::$pools[$key])) {
 
-            $size = PoolCnf::$size;
-            $ttl = PoolCnf::$ttl;
-            $maxUses = PoolCnf::$maxUses;
+            $size = $options["pool"]["size"] ?? PoolCnf::$size;
+            $ttl = $options["pool"]["ttl"] ?? PoolCnf::$ttl;
+            $maxUses = $options["pool"]["maxUses"] ?? PoolCnf::$maxUses;
 
             self::$pools[$key] = new ConnectionPool(
                 $host,

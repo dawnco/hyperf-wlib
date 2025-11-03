@@ -64,7 +64,7 @@ class WrapperClient
             return false;
         }
 
-        if ($this->client->errCode > 0 || $this->client->statusCode < 0) {
+        if ($this->client->errCode > 0 || $this->client->statusCode <= 0) {
             return false;
         }
 

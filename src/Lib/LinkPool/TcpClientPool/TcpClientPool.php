@@ -22,10 +22,10 @@ class TcpClientPool
      * @param string $data
      * @return int  发送了多少字节
      */
-    public static function send(string $host, int $port, string $data): int
+    public static function send(string $host, int $port, string $data, array $options = []): int
     {
-        $sendLen = RetryHelper::withRetry(function () use ($host, $port, $data) {
-            $pool = PoolManager::getPool($host, $port);
+        $sendLen = RetryHelper::withRetry(function () use ($host, $port, $data, $options) {
+            $pool = PoolManager::getPool($host, $port, $options);
             $wrapper = $pool->get();
             $sendLen = $wrapper->client->send($data, 30);
             if ($sendLen && $sendLen == strlen($data)) {
@@ -36,7 +36,7 @@ class TcpClientPool
                 $wrapper->client->close();
                 return 0;
             }
-        });
+        }, $options['maxRetries'] ?? 1);
 
         if (!$sendLen || $sendLen == strlen($data)) {
             WLog::error(sprintf("发送 TCP 到 %s:%s 失败", $host, $port));
