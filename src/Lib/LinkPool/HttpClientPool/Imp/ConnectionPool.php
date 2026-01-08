@@ -33,9 +33,9 @@ class ConnectionPool
 
         $this->options = $options;
 
-        $size = $options["pool"]["size"] ?? PoolCnf::$size;
-        $ttl = $options["pool"]["ttl"] ?? PoolCnf::$ttl;
-        $maxUses = $options["pool"]["maxUses"] ?? PoolCnf::$maxUses;
+        $size = $options["size"] ?? PoolCnf::$size;
+        $ttl = $options["ttl"] ?? PoolCnf::$ttl;
+        $maxUses = $options["maxUses"] ?? PoolCnf::$maxUses;
 
         $this->host = $host;
         $this->port = $port;

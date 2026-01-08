@@ -26,7 +26,7 @@ class WrapperClient
     ) {
         $this->client = new Client($this->host, $this->port, $this->ssl);
         $this->client->set([
-            "timeout" => $this->options["pool"]["timeout"] ?? PoolCnf::$httpTimeout,
+            "timeout" => $this->options["timeout"] ?? PoolCnf::$httpTimeout,
         ]);
         $this->lastUseTime = time();
     }

@@ -70,7 +70,7 @@ class HttpClientPool
         $path = ($parsed['path'] ?? '/') . (isset($parsed['query']) ? '?' . $parsed['query'] : '');
 
         // 从连接池获取连接
-        $pool = PoolManager::getPool($host, $port, $ssl, $options);
+        $pool = PoolManager::getPool($host, $port, $ssl, $options['pool'] ?? []);
 
         return RetryHelper::withRetry(function () use ($method, $pool, $host, $port, $path, $options) {
             $wrapper = $pool->get();
