@@ -15,14 +15,18 @@ use WLib\WLog;
 class WrapperClient
 {
     public \Swoole\Coroutine\Http\Client $client;
-    public int $useCount = 0;
+    public int $useCount = 1;
     public int $lastUseTime;
 
-    public function __construct(protected string $host, protected int $port, protected bool $ssl)
-    {
+    public function __construct(
+        protected string $host,
+        protected int $port,
+        protected bool $ssl,
+        protected array $options = []
+    ) {
         $this->client = new Client($this->host, $this->port, $this->ssl);
         $this->client->set([
-            "timeout" => PoolCnf::$httpTimeout,
+            "timeout" => $this->options["pool"]["timeout"] ?? PoolCnf::$httpTimeout,
         ]);
         $this->lastUseTime = time();
     }

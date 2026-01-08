@@ -17,18 +17,11 @@ class PoolManager
     {
         $key = "$host:$port:" . ($ssl ? '1' : '0');
         if (!isset(self::$pools[$key])) {
-
-            $size = $options["pool"]["size"] ?? PoolCnf::$size;
-            $ttl = $options["pool"]["ttl"] ?? PoolCnf::$ttl;
-            $maxUses = $options["pool"]["maxUses"] ?? PoolCnf::$maxUses;
-
             self::$pools[$key] = new ConnectionPool(
                 $host,
                 $port,
                 $ssl,
-                $size,
-                $ttl,
-                $maxUses,
+                $options,
             );
         }
         return self::$pools[$key];

@@ -28,6 +28,7 @@ class HttpClientPool
      *                                 "key1"=>"value",
      *                                 ],
      *                                 "maxRetries" => 1, // 尝试次数  默认1表示不重试
+     *                                 "timeout"=> 10 // http超时时间 默认10秒
      *                                 ]
      * @return HttpResponse|null
      */
@@ -50,6 +51,7 @@ class HttpClientPool
      *                                  "key1"=>"value",
      *                                  ],
      *                                  "maxRetries" => 1, // 尝试次数  默认1
+     *                                  "timeout"=> 10 // http超时时间 默认10秒
      *                                  ]
      * @return HttpResponse|null
      */

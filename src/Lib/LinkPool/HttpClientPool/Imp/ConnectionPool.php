@@ -22,15 +22,21 @@ class ConnectionPool
     private string $host;
     private int $port;
 
+    private array $options;
 
     public function __construct(
         string $host,
         int $port,
         bool $ssl,
-        int $size,
-        int $ttl,
-        int $maxUses
+        array $options = [],
     ) {
+
+        $this->options = $options;
+
+        $size = $options["pool"]["size"] ?? PoolCnf::$size;
+        $ttl = $options["pool"]["ttl"] ?? PoolCnf::$ttl;
+        $maxUses = $options["pool"]["maxUses"] ?? PoolCnf::$maxUses;
+
         $this->host = $host;
         $this->port = $port;
         $this->ttl = $ttl;
@@ -41,7 +47,7 @@ class ConnectionPool
 
     public function createClient(): WrapperClient
     {
-        return new WrapperClient($this->host, $this->port, $this->ssl);
+        return new WrapperClient($this->host, $this->port, $this->ssl, $this->options);
     }
 
     public function get(): WrapperClient
