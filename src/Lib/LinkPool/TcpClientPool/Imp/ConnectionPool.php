@@ -63,7 +63,7 @@ class ConnectionPool
     {
 
         if (!$wrapper->isReusable()) {
-            WLog::info(sprintf("TCP 连接不可复用了 %s:%s useCount %s lastUseTime %s ago",
+            WLog::debug(sprintf("TCP 连接不可复用了 %s:%s useCount %s lastUseTime %s ago",
                 $this->host,
                 $this->port,
                 $wrapper->useCount,
